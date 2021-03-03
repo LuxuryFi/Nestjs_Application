@@ -1,0 +1,35 @@
+{{#extend "layout"}}
+
+{{#content "body"}}
+<a href="/courses/create" class="btn btn-primary"> <i class="fa fa-plus"></i> New Course</a>
+<br>
+<table class="table table-bordered">
+    <tr>
+        <th>Course ID</th>
+        <th>Course Name</th>
+        <th>Course Description</th>
+        <th>Category</th>
+        <th>Status</th>
+        <th></th>
+    </tr>
+    {{#each courses}}
+    <tr>
+        <td>{{id}}</td>
+        <td>{{course_name}}</td>
+        <td>{{course_description}}</td>
+        <td>{{category.category_name}}</td>
+        <td>{{is_active}}</td>
+        <td>
+            <center>
+                <a href="/courses/detail?id={{id}}"><i class="far fa-eye"></i></a>&nbsp;&nbsp;
+                <a href="/courses/delete?id={{id}}" onclick="confirm('Delete?')" ><i class="far fa-trash"></i></a>&nbsp;&nbsp;
+                <a href="/courses/update?id={{id}}"><i class="far fa-pen"></i></a>&nbsp;&nbsp;
+            </center>
+        </td>
+    </tr>
+
+    {{/each}}
+</table>
+{{/content}}
+
+{{/extend}}

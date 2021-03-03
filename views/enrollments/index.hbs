@@ -1,0 +1,31 @@
+{{#extend "layout"}}
+
+{{#content "body"}}
+<a href="/enrollments/create" class="btn btn-primary"> <i class="fa fa-plus"></i> New Enroll</a>
+<br><br>
+<table class="table table-bordered">
+    <tr>
+        <th>Course</th>
+        <th>Topic</th>
+        <th>Trainer</th>
+        <th></th>
+    </tr>
+    {{#each enrollments}}
+    <tr>
+        <td><a href="/courses/detail?id={{course.id}}">{{course.course_name}}</a></td>
+        <td><a href="/topics/detail?id={{topic.id}}">{{topic.topic_name}}</a></td>
+        <td><a href="/trainers/detail?id={{trainer.id}}">{{trainer.trainer_firstname}} {{trainer.trainer_lastname}}</a></td>
+        <td>
+            <center>
+                <a href="/enrollments/detail?course_id={{course.id}}&topic_id={{topic.id}}&trainer_id={{trainer.id}}"><i class="far fa-eye"></i></a>&nbsp;&nbsp;
+                <a href="/enrollments/delete?course_id={{course.id}}&topic_id={{topic.id}}&trainer_id={{trainer.id}}"><i class="far fa-trash" onclick="confirm('Delete?')"></i></a>&nbsp;&nbsp;
+                <a href="/enrollments/update?course_id={{course.id}}&topic_id={{topic.id}}&trainer_id={{trainer.id}}"><i class="far fa-pen"></i></a>&nbsp;&nbsp;
+            </center>
+        </td>
+    </tr>
+
+    {{/each}}
+</table>
+{{/content}}
+
+{{/extend}}

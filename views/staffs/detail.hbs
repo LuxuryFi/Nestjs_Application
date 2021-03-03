@@ -1,0 +1,49 @@
+{{#extend "layout"}}
+    
+    {{#content "body" mode="append"}}
+    <h2>Detail staff {{staff.id}} - {{staff.staff_name}}</h2>
+        <table class="table table-bordered">
+             <tr>
+                <td>Staff ID</td>
+                <td>{{{staff.id}}}</td>
+            </tr>
+            <tr>
+                <td>Firstname</td>
+                <td>{{{staff.firstname}}}</td>
+            </tr>
+             <tr>
+                <td>Lastname</td>
+                <td>{{{staff.lastname}}}</td>
+            </tr>
+             <tr>
+                <td>Address</td>
+                <td>{{{staff.staff_address}}}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>{{{staff.staff_email}}}</td>
+            </tr>
+            <tr>
+                <td>Phone</td>
+                <td>{{{staff.staff_phone}}}</td>
+            </tr>
+            <tr>
+                <td>Created At</td>
+                <td>{{{staff.created_at}}}</td>
+            </tr>
+             <tr>
+                <td>Updated At</td>
+                <td>{{{staff.updated_at}}}</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <img width="300px" src="/public/uploads/staffs/{{staff.avatar}}" alt="">
+                </td>
+            </tr>
+        </table>
+        
+        <a href="/staffs/index" class="btn btn-success">Back To Home</a>
+        <a href="/staffs/update?id={{staff.id}}" class="btn btn-secondary">Update</a>
+
+    {{/content}}
+{{/extend}}

@@ -1,0 +1,38 @@
+{{#extend "layout"}}
+    {{#content "body" mode="append"}}
+    <h2>Detail Topic {{topic.id}} - {{topic.topic_name}}</h2>
+        <table class="table table-bordered">
+             <tr>
+                <td>Topic ID</td>
+                <td>{{{topic.id}}}</td>
+            </tr>
+            <tr>
+                <td>Topic Name</td>
+                <td>{{{topic.topic_name}}}</td>
+            </tr>
+             <tr>
+                <td>Topic Description</td>
+                <td>{{{topic.topic_description}}}</td>
+            </tr>
+            <tr>
+                <td>Topic Summary</td>
+                <td>{{{topic.topic_summary}}}</td>
+            </tr>
+            <tr>
+                <td>Slot</td>
+                <td>{{{topic.slot}}}</td>
+            </tr>
+            <tr>
+                <td>Created At</td>
+                <td>{{{topic.created_at}}}</td>
+            </tr>
+             <tr>
+                <td>Updated At</td>
+                <td>{{{topic.updated_at}}}</td>
+            </tr>
+        </table>
+
+        <a href="/topics/index" class="btn btn-success">Back To Home</a>
+        <a href="/topics/update?id={{topic.id}}" class="btn btn-secondary">Update</a>
+    {{/content}}
+{{/extend}}

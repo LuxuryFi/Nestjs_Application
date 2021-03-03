@@ -1,0 +1,32 @@
+{{#extend "layout"}}
+    {{#content "body" mode="append"}}
+     <h2>Detail Category {{category.id}} - {{category.category_name}}</h2>
+        <table class="table table-bordered">
+             <tr>
+                <td>Category ID</td>
+                <td>{{{category.id}}}</td>
+            </tr>
+            <tr>
+                <td>Category Name</td>
+                <td>{{{category.category_name}}}</td>
+            </tr>
+             <tr>
+                <td>Category Description</td>
+                <td>{{{category.category_description}}}</td>
+            </tr>
+            
+            <tr>
+                <td>Created At</td>
+                <td>{{{category.created_at}}}</td>
+            </tr>
+             <tr>
+                <td>Updated At</td>
+                <td>{{{category.updated_at}}}</td>
+            </tr>
+            
+        </table>
+
+        <a href="/categories/index" class="btn btn-success">Back To Home</a>
+        <a href="/categories/update?id={{category.id}}" class="btn btn-secondary">Update</a>
+    {{/content}}
+{{/extend}}

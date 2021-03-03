@@ -1,0 +1,23 @@
+{{#extend "layout" foo="bar"}}
+
+
+     {{#content "header" mode="prepend"}}
+        <h2>prepend header</h2>
+        <ul>
+            <li> <a href="/courses/index"></a></li>
+        </ul>
+    {{/content}}
+
+
+    {{#content "body" mode="append"}}
+        <h2>append body</h2>
+    {{/content}}
+
+     {{#content "footer" mode="prepend"}}
+        <h2>Prepend footer</h2>
+    {{/content}}
+
+      {{#content "footer" mode="append"}}
+        <h2>Append footer</h2>
+    {{/content}}
+{{/extend}}

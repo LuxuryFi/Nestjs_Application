@@ -1,0 +1,38 @@
+{{#extend "layout"}}
+    
+    {{#content "body" mode="append"}}
+    <h2>Update Topic {{topic.id}} - {{topic.topic_name}}</h2>
+        <form action="/topics/update" method="POST">
+            <div class="mb-3">
+                <label for="">Topic Name</label>
+                <input type="text" name="topic_name" class="form-control" value="{{{topic.topic_name}}}">
+            </div>
+             <div class="mb-3">
+                <label for="">Topic Description</label>
+                <input type="text" name="topic_description" class="form-control" value="{{{topic.topic_description}}}">
+            </div>
+             <div class="mb-3">
+                <label for="">Topic Summary</label>
+                <input type="text" name="topic_summary" class="form-control" value="{{{topic.topic_summary}}}">
+            </div>
+             <div class="mb-3">
+                <label for="">Slot</label>
+                <input type="text" name="slot" class="form-control" value="{{{topic.slot}}}">
+            </div>
+             <div class="mb-3">
+                <label for="">Topic Status</label>
+                <select name="is_active" id="" class="form-control">
+                    <option  value="1" {{active}}>Active</option>
+                    <option value="0" {{{disable}}}>Disable</option>
+                </select>
+            </div>
+            <input type="hidden" name="id" value={{{topic.id}}}>
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary">
+                <input type="reset" value="Reset" class="btn btn-danger">
+            </div>
+
+             
+        </form>
+    {{/content}}
+{{/extend}}

@@ -1,0 +1,49 @@
+{{#extend "layout"}}
+    
+    {{#content "body" mode="append"}}
+    <h2>Detail trainee {{trainee.id}} - {{trainee.trainee_firstname}}</h2>
+        <table class="table table-bordered">
+             <tr>
+                <td>trainee ID</td>
+                <td>{{{trainee.id}}}</td>
+            </tr>
+            <tr>
+                <td>Firstname</td>
+                <td>{{{trainee.trainee_firstname}}}</td>
+            </tr>
+             <tr>
+                <td>Lastname</td>
+                <td>{{{trainee.trainee_lastname}}}</td>
+            </tr>
+             <tr>
+                <td>Address</td>
+                <td>{{{trainee.trainee_address}}}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>{{{trainee.trainee_email}}}</td>
+            </tr>
+            <tr>
+                <td>Phone</td>
+                <td>{{{trainee.trainee_phone}}}</td>
+            </tr>
+            <tr>
+                <td>Created At</td>
+                <td>{{{trainee.created_at}}}</td>
+            </tr>
+             <tr>
+                <td>Updated At</td>
+                <td>{{{trainee.updated_at}}}</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <img width="300px" src="/public/uploads/trainees/{{trainee.avatar}}" alt="">
+                </td>
+            </tr>
+        </table>
+        
+        <a href="/trainees/index" class="btn btn-success">Back To Home</a>
+        <a href="/trainees/update?id={{trainee.id}}" class="btn btn-secondary">Update</a>
+
+    {{/content}}
+{{/extend}}

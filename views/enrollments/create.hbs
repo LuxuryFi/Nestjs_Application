@@ -1,0 +1,38 @@
+{{#extend "layout"}}
+
+{{#content "body" mode="append"}}
+
+<h2>Create Enrollment</h2>
+
+<form action="/enrollments/create" method="POST">
+
+    <div class="mb-3">
+        <label for="">Course Detail</label>
+        <select name="course_detail_value" id="" class="form-control">
+            {{#each details}}
+            <option value='{"trainer_id":"{{trainer_id}}","course_id":"{{course_id}}","topic_id":"{{topic_id}}"}'>
+                {{course.course_name}} - {{topic.topic_name}} - {{trainer.trainer_firstname}}</option>
+            {{/each}}
+        </select>
+    </div>
+      <div class="mb-3">
+        <label for="">Trainee</label>
+        <select name="trainee_id" id="" class="form-control">
+            {{#each trainees}}
+            <option value='{{id}}'>
+                {{trainee_firstname}}
+               </option>
+            {{/each}}
+        </select>
+    </div>
+
+
+    <div class="mb-3">
+        <input type="submit" class="btn btn-primary" value="Create">
+        <input type="reset" class="btn btn-danger" value="Reset">
+    </div>
+</form>
+
+{{/content}}
+
+{{/extend}}

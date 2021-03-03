@@ -1,0 +1,40 @@
+{{#extend "layout"}}
+
+{{#content "body" mode="append"}}
+        <h2>prepend body</h2>
+        <form action="/courses/update" method="POST">
+            <div class="mb-3">
+                <label for="">Course Name</label>
+                <input type="text" class="form-control" value="{{{course.course_name}}}" name="course_name">
+            </div>
+             <div class="mb-3">
+                <label for="">Course Description</label>
+                <input type="text" class="form-control" value="{{{course.course_name}}}" name="course_description">
+            </div>
+            <input type="hidden" name="id" value="{{course.id}}">
+            <div class="mb-3">
+                <label for="">Category</label>
+                <select name="category_id" id="" class="form-control">
+                     {{#each categories}}
+                        <option value="{{id}}" {{selected id ../course.category_id}}>{{category_name}}</option>
+                     {{/each}}
+                </select>
+               
+             
+            </div>
+            <div class="mb-3">
+                <label for="">Course Status</label>
+                <select name="is_active" id="" class="form-control">
+                    <option value="1" {{active}}>Active</option>
+                    <option value="0" {{disable}}>Disable</option>
+                </select>
+            </div>
+            <div class="fmb-3">
+                <input type="submit" value="Create" class="btn btn-primary">
+                <input type="reset" value="Reset" class="btn btn-danger">
+            </div>
+
+        </form>
+{{/content}}
+
+{{/extend}}

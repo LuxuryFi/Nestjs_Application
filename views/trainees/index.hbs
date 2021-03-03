@@ -1,0 +1,49 @@
+{{#extend "layout"}}
+
+
+
+{{#content "body" mode="append"}}
+<h2>List trainee</h2>
+<a href="/trainees/create" class="btn btn-primary"> <i class="fa fa-plus"></i> New trainee</a><br><br>
+
+<table class="table table-bordered table-responsive">
+    <thead>
+         <tr class="" >
+            <th class="col-1">trainee ID</th>
+            <th class="col-1">First Name</th>
+            <th class="col-1">Last Name</th>
+            <th class="col-2">Avatar</th>
+            <th class="col-2">Address</th>
+            <th class="col-2">Phone</th>
+            <th class="col-2">Email</th>
+            <th class="col-1"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each trainees}}
+    <tr class="" >
+        <td class="col-1">{{{id}}}</td>
+        <td class="col-1">{{{trainee_firstname}}}</td>
+        <td class="col-1"><p>{{{trainee_lastname}}}</p></td>
+        <td class="col-2">
+            <center>
+                <img width="150px" style="" src="/public/uploads/trainees/{{{avatar}}}" alt="">
+            </center>
+        </td>
+        <td class="col-2"><p>{{{trainee_address}}}</p></td>
+        <td class="col-2">{{{trainee_phone}}}</td>
+        <td class="col-2">{{{trainee_email}}}</td>
+        <td class="col-1">
+            <center>
+                <a href="/trainees/detail?id={{id}}"><i class="far fa-eye"></i></a>&nbsp;&nbsp;
+                <a href="/trainees/delete?id={{id}}" onclick="confirm('Delete?')"><i class="far fa-trash"></i></a>&nbsp;&nbsp;
+                <a href="/trainees/update?id={{id}}"><i class="far fa-pen"></i></a>&nbsp;&nbsp;
+            </center>
+        </td>
+    </tr>
+    {{/each}}
+    </tbody>
+    
+</table>
+{{/content}}
+{{/extend}}

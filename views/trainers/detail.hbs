@@ -1,0 +1,47 @@
+{{#extend "layout"}}
+    
+    {{#content "body" mode="append"}}
+    <h2>Detail Trainer {{trainer.id}} - {{trainer.trainer_firstname}}</h2>
+        <table class="table table-bordered">
+             <tr>
+                <td>Trainer ID</td>
+                <td>{{{trainer.id}}}</td>
+            </tr>
+            <tr>
+                <td>Firstname</td>
+                <td>{{{trainer.trainer_firstname}}}</td>
+            </tr>
+             <tr>
+                <td>Lastname</td>
+                <td>{{{trainer.trainer_lastname}}}</td>
+            </tr>
+             <tr>
+                <td>Address</td>
+                <td>{{{trainer.trainer_address}}}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>{{{trainer.trainer_email}}}</td>
+            </tr>
+            <tr>
+                <td>Phone</td>
+                <td>{{{trainer.trainer_phone}}}</td>
+            </tr>
+            <tr>
+                <td>Created At</td>
+                <td>{{{trainer.created_at}}}</td>
+            </tr>
+             <tr>
+                <td>Updated At</td>
+                <td>{{{trainer.updated_at}}}</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <img width="300px" src="/uploads/trainers/{{trainer.avatar}}" alt="">
+                </td>
+            </tr>
+        </table>     
+        <a href="/trainers/index" class="btn btn-success">Back To Home</a>
+        <a href="/trainers/update?id={{trainer.id}}" class="btn btn-secondary">Update</a>
+    {{/content}}
+{{/extend}}

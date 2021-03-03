@@ -1,0 +1,32 @@
+{{#extend "layout"}}
+
+{{#content "body" mode="append"}}
+    <br>
+    <h2>Update Category {{category.id}} - {{category.category_name}}</h2>
+        <form action="/categories/update" method="POST">
+            <div class="mb-3">
+                <label for="">Category Name</label>
+                <input type="text" class="form-control" value="{{{category.category_name}}}" name="category_name">
+            </div>
+             <div class="mb-3">
+                <label for="">Category Description</label>
+                <input type="text" class="form-control" value="{{{category.category_name}}}" name="category_description">
+            </div>
+            <input type="hidden" name="id" value="{{category.id}}">
+            <div class="mb-3">
+                <label for="">Category Status</label>
+                <select name="is_active" id="" class="form-control">
+                    <option value="1" {{active}}>Active</option>
+                    <option value="0" {{disable}}>Disable</option>
+                </select>
+            </div>
+            <div class="fmb-3">
+                <input type="submit" value="Update" class="btn btn-primary">
+                <input type="reset" value="Reset" class="btn btn-danger">
+                <a href="/categories/index"  class="btn btn-secondary" >Back To Home</a>
+            </div>
+
+        </form>
+{{/content}}
+
+{{/extend}}

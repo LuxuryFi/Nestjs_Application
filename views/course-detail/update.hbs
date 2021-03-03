@@ -1,0 +1,55 @@
+{{#extend "layout"}}
+
+{{#content "body" mode="append"}}
+
+<h2>Create Course Detail</h2>
+
+<form action="/course-detail/update" method="POST">
+    <div class="mb-3">
+        <h1>{{course_detail.course.id}}</h1>
+    </div>
+
+    <div class="mb-3">
+        <label for="">Course</label>
+     
+        <select name="course_id" id="" class="form-control">
+            {{#each courses}}
+            <option value="{{id}}" {{selected id ../course_detail.course_id}}> {{course_name}} </h1> </option>
+          
+            {{/each}}
+        </select>
+
+    </div>
+    <div class="mb-3">
+        <label for="">Trainer</label>
+        <select name="trainer_id" id="" class="form-control">
+            {{#each trainers}}
+            <option value="{{id}}" {{selected id ../course_detail.trainer_id}}>{{trainer_firstname}} {{trainer_lastname}} </option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="">Topic</label>
+        <select name="topic_id" id="" class="form-control">
+            {{#each topics}}
+            <option value="{{id}}"  {{selected id ../course_detail.topic_id}}>{{topic_name}}</option>
+            {{/each}}
+        </select>
+
+    </div>
+    <input type="hidden" name="course_oldid" value={{course_detail.course_id}}>
+    <input type="hidden" name="topic_oldid" value={{course_detail.topic_id}}>
+    <input type="hidden" name="trainer_oldid" value={{course_detail.trainer_id}}>
+
+
+    <div class="mb-3">
+        <input type="submit" class="btn btn-primary" value="Create">
+        <input type="reset" class="btn btn-danger" value="Reset">
+    </div>
+
+
+</form>
+
+{{/content}}
+
+{{/extend}}

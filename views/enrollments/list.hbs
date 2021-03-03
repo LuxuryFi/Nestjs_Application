@@ -1,0 +1,47 @@
+{{#extend "layout"}}
+
+
+
+{{#content "body" mode="append"}}
+<h2>List of trainee</h2>
+<a href="/enrollments/add" class="btn btn-primary"> <i class="fa fa-plus"></i> New trainee</a><br><br>
+
+<table class="table table-bordered table-responsive">
+    <thead>
+         <tr class="" >
+            <th class="col-1">Trainee ID</th>
+            <th class="col-1">First Name</th>
+            <th class="col-1">Last Name</th>
+            <th class="col-2">Avatar</th>
+            <th class="col-2">Address</th>
+            <th class="col-2">Phone</th>
+            <th class="col-2">Email</th>
+            <th class="col-1"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each trainees}}
+    <tr class="" >
+        <td class="col-1">{{{trainee.id}}}</td>
+        <td class="col-1">{{{trainee.trainee_firstname}}}</td>
+        <td class="col-1"><p>{{{trainee.trainee_lastname}}}</p></td>
+        <td class="col-2">
+            <center>
+                <img width="150px" style="" src="/public/uploads/trainees/{{{trainee.avatar}}}" alt="">
+            </center>
+        </td>
+        <td class="col-2"><p>{{{trainee.trainee_address}}}</p></td>
+        <td class="col-2">{{{trainee.trainee_phone}}}</td>
+        <td class="col-2">{{{trainee.trainee_email}}}</td>
+        <td class="col-1">
+            <center> 
+                <a href="/enrollments/delete?trainee_id={{trainee_id}}&course_id={{course_id}}&topic_id={{topic_id}}&trainer_id={{trainer_id}}" onclick="confirm('Delete?')"><i class="far fa-trash"></i></a>&nbsp;&nbsp;    
+            </center>
+        </td>
+    </tr>
+    {{/each}}
+    </tbody>
+    
+</table>
+{{/content}}
+{{/extend}}

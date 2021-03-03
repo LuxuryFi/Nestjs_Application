@@ -1,0 +1,34 @@
+{{#extend "layout"}}
+
+{{#content "body"}}
+<a href="/course-detail/create" class="btn btn-primary"> <i class="fa fa-plus"></i> New Course</a>
+<br><br>
+<table class="table table-bordered">
+    <tr>
+        <th>Course</th>
+        <th>Topic</th>
+        <th>Trainer</th>
+        <th>Category</th>
+        <th>Status</th>
+        <th></th>
+    </tr>
+    {{#each coursedetails}}
+    <tr>
+        <td>{{course.course_name}}</td>
+        <td>{{topic.topic_name}}</td>
+        <td>{{trainer.trainer_firstname}} {{trainer.trainer_lastname}}</td>
+        <td>{{is_active}}</td>
+        <td>
+            <center>
+                <a href="/course-detail/detail?course_id={{course.id}}&topic_id={{topic.id}}&trainer_id={{trainer.id}}"><i class="far fa-eye"></i></a>&nbsp;&nbsp;
+                <a href="/course-detail/delete?course_id={{course.id}}&topic_id={{topic.id}}&trainer_id={{trainer.id}}" onclick="confirm('Delete?')"><i class="far fa-trash"></i></a>&nbsp;&nbsp;
+                <a href="/course-detail/update?course_id={{course.id}}&topic_id={{topic.id}}&trainer_id={{trainer.id}}"><i class="far fa-pen"></i></a>&nbsp;&nbsp;
+            </center>
+        </td>
+    </tr>
+
+    {{/each}}
+</table>
+{{/content}}
+
+{{/extend}}

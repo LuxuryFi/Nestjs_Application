@@ -1,0 +1,44 @@
+{{#extend "layout"}}
+
+{{#content "body" mode="append"}}
+
+<h2>Update Trainee</h2>
+
+<form action="/trainees/update" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="">First Name</label>
+        <input type="text" name="trainee_firstname" id="" class="form-control" value="{{trainee.trainee_firstname}}">
+    </div>
+    <div class="mb-3">
+        <label for="">Last Name</label>
+        <input type="text" name="trainee_lastname" id="" class="form-control" value="{{trainee.trainee_lastname}}">
+    </div>
+    <div class="mb-3">
+        <label for="">Email</label>
+        <input type="text" name="trainee_email" id="" class="form-control" value="{{trainee.trainee_email}}">
+    </div>
+    <div class="mb-3">
+        <label for="">Phone number</label>
+        <input type="text" name="trainee_phone" id="" class="form-control"value="{{trainee.trainee_phone}}">
+    </div>
+    <div class="mb-3">
+        <label for="">Address</label>
+        <input type="text" name="trainee_address" id="" class="form-control" value="{{trainee.trainee_address}}">
+    </div>
+    <div class="mb-3">
+        <label for="">Password</label>
+        <input type="text" name="password" id="" class="form-control" value="{{trainee.password}}">
+    </div>
+    <div class="mb-3">
+        <label for="">Avatar</label>
+        <input type="file" name="avatar" id="" class="form-control">
+    </div>
+    <input type="hidden" name="old_image" value="{{trainee.avatar}}">
+    <input type="hidden" name="id" value="{{trainee.id}}">
+    <div class="mb-3">
+        <input type="submit" value="Update" class="btn btn-primary">
+        <input type="reset" value="Reset" class="btn btn-danger">
+    </div>
+</form>
+{{/content}}
+{{/extend}}
