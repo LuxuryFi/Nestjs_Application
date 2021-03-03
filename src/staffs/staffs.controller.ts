@@ -11,15 +11,15 @@ export class StaffsController {
 
     @Render('staffs/index.hbs')
     @Get('index')
-    async index(){
+    async index(@Req() req){
         let staffs = await this.staffService.findAll();
-        return {staffs: staffs}
+        return {user: req.user,staffs: staffs}
     }
 
     @Render('staffs/create.hbs')
     @Get('create')
-    create(){
-        
+    create(@Req() req){
+        return {user: req.user}
     }
 
     @Post('create')
@@ -59,9 +59,9 @@ export class StaffsController {
 
     @Render('staffs/update.hbs')
     @Get('update')
-    async update(@Query() query){
+    async update(@Req() req,@Query() query){
         let staff = await this.staffService.findOne(query.id);
-        return {staff : staff}
+        return {user: req.user,staff : staff}
     }
 
     @Post('update')
@@ -105,9 +105,9 @@ export class StaffsController {
 
     @Render('staffs/detail.hbs')
     @Get('detail')
-    async detail(@Res() res, @Query() query){
+    async detail(@Req() req,@Res() res, @Query() query){
         let staff = await this.staffService.findOne(query.id);
-        return {staff :  staff}
+        return {user: req.user,staff :  staff}
     }
 
 

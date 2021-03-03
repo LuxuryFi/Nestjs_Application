@@ -1,4 +1,5 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Render, Res, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus,Request,Post, Query, Render, Res, ValidationPipe, Req } from '@nestjs/common';
+import { REQUEST } from '@nestjs/core';
 import { query } from 'express';
 import { join } from 'path';
 import { getegid } from 'process';
@@ -11,11 +12,12 @@ import { TopicsService } from './topics.service';
 export class TopicsController {
     constructor(private readonly topicsService : TopicsService){}
 
-    @Render('/topics/index.hbs')
+    @Render('topics/index.hbs')
     @Get('index')
-    async index()  {
+    async index(@Request() req)  {
         let topics =  await this.topicsService.findAll()
-        return {topics : topics};
+
+        return {user: req.user,topics : topics};
     }
 
     @Render('topics/create.hbs')
@@ -38,10 +40,10 @@ export class TopicsController {
 
     @Render('topics/update.hbs')
     @Get('update')
-    async update(@Query() query){
+    async update(@Req() req,@Query() query){
         let topic = await this.topicsService.findOne(query.id);
         if (topic.is_active == 1) return {topic : topic, active:'selected', disable: ''};
-        return {topic : topic, active:'', disable: 'selected'};
+        return {user: req.user,topic : topic, active:'', disable: 'selected'};
     }
 
     @Post('update')
@@ -53,9 +55,9 @@ export class TopicsController {
 
     @Render('topics/detail.hbs')
     @Get('detail')
-    async detail(@Query() query){
+    async detail(@Req() req,@Query() query){
         let topic = await this.topicsService.findOne(query.id);
-        return {topic : topic};
+        return {user: req.user,topic : topic};
     }
 
     @Get('delete')

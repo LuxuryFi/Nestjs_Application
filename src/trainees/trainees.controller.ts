@@ -14,7 +14,7 @@ import { RolesGuard } from 'src/role/role.guard';
 export class TraineesController {
     constructor(private readonly traineeService : TraineesService){}
 
-    @Roles(Role.Trainee,Role.Admin,Role.Trainer)
+    @Roles(Role.Staff,Role.Admin)
     @UseGuards(RolesGuard)
     @Render('trainees/index.hbs')
     @Get('index')
@@ -23,13 +23,14 @@ export class TraineesController {
         return {trainees : trainees}
     }
     
-    @Roles(Role.Trainee)
+
+    @Roles(Role.Admin)
     @UseGuards(RolesGuard)
     @Render('trainees/create.hbs')
     @Get('create')
     create(){}
 
-    @Roles(Role.Trainee)
+    @Roles(Role.Admin)
     @UseGuards(RolesGuard)
     @Render('trainees/index.hbs')
     @Post('create')
@@ -59,6 +60,8 @@ export class TraineesController {
 
     }
 
+    @Roles(Role.Admin,Role.Staff)
+    @UseGuards(RolesGuard)
     @Render('trainees/detail.hbs')
     @Get('detail')
     async detail(@Query() query){
@@ -67,6 +70,8 @@ export class TraineesController {
         return {trainee : trainee}
     }
 
+    @Roles(Role.Admin)
+    @UseGuards(RolesGuard)
     @Get('delete')
     async delete(@Res() res, @Query() query){
         await this.traineeService.delete(query.id);
@@ -74,6 +79,8 @@ export class TraineesController {
     }
 
 
+    @Roles(Role.Admin)
+    @UseGuards(RolesGuard)
     @Render('trainees/update.hbs')
     @Get('update')
     async update(@Query() query){

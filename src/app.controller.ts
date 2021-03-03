@@ -1,4 +1,4 @@
-import { Controller, Get, Request, Post, UseGuards, Render } from '@nestjs/common';
+import { Controller, Get, Request, Post, UseGuards, Render, Res } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { request } from 'http';
 import { AppService } from './app.service';
@@ -22,8 +22,8 @@ export class AppController {
 
   @UseGuards(LoginGuard)
   @Post('auth/login')
-  async login(@Request() req) {
-    return req.user;
+  async login(@Request() req,@Res() res) {
+    res.redirect('/staffs/index')
   }
 
   @UseGuards(AuthenticatedGuard)

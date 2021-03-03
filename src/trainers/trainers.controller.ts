@@ -1,26 +1,37 @@
-import { Body, Controller, Get, Post, Query, Render, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Render, Req, Res, UseGuards } from '@nestjs/common';
 import { CreateTrainerDto } from './dto/create-trainer.dto';
 import { TrainersService } from './trainers.service';
 import * as fs from 'fs'
 import * as path from 'path'
 import { query } from 'express';
 import { UpdateTrainerDto } from './dto/update-trainer.dto';
+import { Role } from 'src/role/role.enum';
+import { RolesGuard } from 'src/role/role.guard';
+import { Roles } from 'src/role/roles.decorator';
 
 @Controller('trainers')
 export class TrainersController {
     constructor(private readonly trainerService: TrainersService) { }
 
+    @Roles(Role.Admin,Role.Staff)
+    @UseGuards(RolesGuard)
     @Render('trainers/index.hbs')
     @Get('index')
-    async index() {
+    async index(@Req() req) {
         let trainers = await this.trainerService.findAll();
-        return { trainers: trainers };
+        return {user: req.user, trainers: trainers };
     }
 
+    @Roles(Role.Admin)
+    @UseGuards(RolesGuard)
     @Render('trainers/create.hbs')
     @Get('create')
-    create() { }
+    create(@Req() req) {
+        return {user: req.user}
+     }
 
+     @Roles(Role.Admin)
+     @UseGuards(RolesGuard)
     @Post('create')
     async createOne(@Res() res, @Req() req) {
         const files = await req.saveRequestFiles();
@@ -46,21 +57,26 @@ export class TrainersController {
         }
     }
 
+    @Roles(Role.Admin)
+    @UseGuards(RolesGuard)
     @Render('trainers/detail.hbs')
     @Get('detail')
-    async detail(@Query() query) {
+    async detail(@Req() req,@Query() query) {
         let trainer = await this.trainerService.findOne(query.id);
-        return { trainer: trainer };
+        return {user: req.user, trainer: trainer };
     }
 
-
+    @Roles(Role.Admin)
+    @UseGuards(RolesGuard)
     @Render('trainers/update.hbs')
     @Get('update')
-    async update(@Query() query) {
+    async update(@Req() req,@Query() query) {
         let trainer = await this.trainerService.findOne(query.id);
-        return { trainer: trainer }
+        return { user: req.user,trainer: trainer }
     }
 
+    @Roles(Role.Admin)
+    @UseGuards(RolesGuard)
     @Post('update')
     async updateOne(@Res() res, @Req() req) {
         const files = await req.saveRequestFiles();
@@ -100,6 +116,8 @@ export class TrainersController {
         }
     }
 
+    @Roles(Role.Admin)
+    @UseGuards(RolesGuard)
     @Get('delete')
     async deleteOne(@Query() query, @Res() res) {
         await this.trainerService.delete(query.id);

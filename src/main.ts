@@ -20,6 +20,23 @@ async function bootstrap() {
   hbs.handlebars.registerHelper(layouts(hbs.handlebars));
 
 
+
+  hbs.handlebars.registerHelper('if_eq', function(role) {
+    if(role == 'admin') // Or === depending on your needs
+        return true
+    else
+        return 'hidden'
+  }); 
+  
+
+  hbs.handlebars.registerHelper('selected', function (options, value) {
+    if (options == value) {
+      return ' selected';
+    } else {
+      return ''
+    }
+  })
+  
   app.use(
     session({
       secret: 'nest cats',
