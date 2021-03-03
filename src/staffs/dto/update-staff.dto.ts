@@ -17,6 +17,8 @@ export class UpdateStaffDto  {
 
     id:number
 
+    old_image: string
+
     setAvatar(avatar: string){
         this.avatar = avatar;
     }

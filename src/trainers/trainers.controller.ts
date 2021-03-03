@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, Render, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Render, Req, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CreateTrainerDto } from './dto/create-trainer.dto';
 import { TrainersService } from './trainers.service';
 import * as fs from 'fs'
@@ -8,18 +8,21 @@ import { UpdateTrainerDto } from './dto/update-trainer.dto';
 import { Role } from 'src/role/role.enum';
 import { RolesGuard } from 'src/role/role.guard';
 import { Roles } from 'src/role/roles.decorator';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 @Controller('trainers')
 export class TrainersController {
     constructor(private readonly trainerService: TrainersService) { }
 
-    @Roles(Role.Admin,Role.Staff)
+    @Roles(Role.Admin, Role.Staff)
     @UseGuards(RolesGuard)
     @Render('trainers/index.hbs')
     @Get('index')
     async index(@Req() req) {
         let trainers = await this.trainerService.findAll();
-        return {user: req.user, trainers: trainers };
+        return { user: req.user, trainers: trainers };
     }
 
     @Roles(Role.Admin)
@@ -27,32 +30,30 @@ export class TrainersController {
     @Render('trainers/create.hbs')
     @Get('create')
     create(@Req() req) {
-        return {user: req.user}
-     }
+        return { user: req.user }
+    }
 
-     @Roles(Role.Admin)
-     @UseGuards(RolesGuard)
+    @Roles(Role.Admin)
+    @UseGuards(RolesGuard)
     @Post('create')
-    async createOne(@Res() res, @Req() req) {
-        const files = await req.saveRequestFiles();
-        const destination = path.join(__dirname + '/..' + '/../', 'public/uploads/trainers/', files[0].filename);
+    @UseInterceptors(FileInterceptor('avatar', {
+        storage: diskStorage({
+          destination: path.join(__dirname + '/..' + '/../', 'public/uploads/trainers/')
+          , filename: (req, file, cb) => {
+            // Generating a 32 random chars long string
+            const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('')
+            //Calling the callback passing the random name generated with the original extension name
+            cb(null, `${randomName}${extname(file.originalname)}`)
+          }
+        })
+      }))
+    async createOne(@Body() createTrainer : CreateTrainerDto, @UploadedFile() file: Express.Multer.File,@Res() res, @Req() req) {
         try {
-            const data = files[0].fields;
-            let createTrainer = new CreateTrainerDto(
-                data.trainer_firstname.value,
-                data.trainer_lastname.value,
-                data.trainer_email.value,
-                data.trainer_phone.value,
-                data.trainer_address.value,
-                data.password.value,
-                files[0].filename
-            );
-
-            const tmp_file = files[0].filepath;
-            fs.copyFileSync(tmp_file, destination);
+            var avatar = file.filename;
+            createTrainer.avatar = avatar
             await this.trainerService.create(createTrainer);
             res.status(302).redirect('/trainers/index')
-        } catch (error) {             
+        } catch (error) {
             res.status(302).redirect('/trainers/index')
         }
     }
@@ -61,56 +62,54 @@ export class TrainersController {
     @UseGuards(RolesGuard)
     @Render('trainers/detail.hbs')
     @Get('detail')
-    async detail(@Req() req,@Query() query) {
+    async detail(@Req() req, @Query() query) {
         let trainer = await this.trainerService.findOne(query.id);
-        return {user: req.user, trainer: trainer };
+        return { user: req.user, trainer: trainer };
     }
 
     @Roles(Role.Admin)
     @UseGuards(RolesGuard)
     @Render('trainers/update.hbs')
     @Get('update')
-    async update(@Req() req,@Query() query) {
+    async update(@Req() req, @Query() query) {
         let trainer = await this.trainerService.findOne(query.id);
-        return { user: req.user,trainer: trainer }
+        return { user: req.user, trainer: trainer }
     }
 
     @Roles(Role.Admin)
     @UseGuards(RolesGuard)
     @Post('update')
-    async updateOne(@Res() res, @Req() req) {
-        const files = await req.saveRequestFiles();
-        const data = files[0].fields;
-        const tmp_file = files[0].filepath;
-        const destination = path.join(__dirname + '/..' + '/../', 'public/uploads/trainers/', files[0].filename);
-        
-        let avatar = '';
+    @UseInterceptors(FileInterceptor('avatar', {
+        storage: diskStorage({
+            destination: path.join(__dirname + '/..' + '/../', 'public/uploads/trainers/')
+            , filename: (req, file, cb) => {
+                // Generating a 32 random chars long string
+                const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('')
+                //Calling the callback passing the random name generated with the original extension name
+                cb(null, `${randomName}${extname(file.originalname)}`)
+            }
+        })
+    }))
+    async updateOne(@Body() updateTrainer: UpdateTrainerDto, @Res() res, @Req() req, @UploadedFile() file: Express.Multer.File) {
+        console.log(file)
+        const destination = path.join(__dirname + '/..' + '/../', 'public/uploads/trainers/', file.originalname);
+
         try {
-            avatar = files[0].filename;
-            
-            let old_image = path.join(__dirname + '/..' + '/../', 'public/uploads/trainers/', data.old_image.value);
-            if (!files[0].filename) avatar = data.old_image.value;
+            var avatar = file.filename;
+
+            let old_image = path.join(__dirname + '/..' + '/../', 'public/uploads/trainers/', updateTrainer.old_image);
+            if (!avatar) avatar = updateTrainer.old_image;
             else {
-                if (data.old_image.value && fs.existsSync(old_image)){
+                if (updateTrainer.old_image && fs.existsSync(old_image)) {
                     fs.unlinkSync(old_image);
                 }
-                fs.copyFileSync(tmp_file, destination);
+                updateTrainer.avatar = avatar
             }
+            
 
-            let updateTrainer = new UpdateTrainerDto(
-                data.id.value,
-                data.trainer_firstname.value,
-                data.trainer_lastname.value,
-                data.trainer_email.value,
-                data.trainer_phone.value,
-                data.trainer_address.value,
-                data.password.value,
-                avatar   
-            );   
-  
             await this.trainerService.update(updateTrainer);
             res.status(302).redirect('/trainers/index')
-            
+
         } catch (error) {
             throw error.message;
         }
@@ -120,6 +119,13 @@ export class TrainersController {
     @UseGuards(RolesGuard)
     @Get('delete')
     async deleteOne(@Query() query, @Res() res) {
+        let trainer = await this.trainerService.findOne(query.id);
+        let old_image = path.join(__dirname + '/..' + '/../', 'public/uploads/trainers/', trainer.avatar);
+
+        if (trainer.avatar && fs.existsSync(old_image)) {
+            fs.unlinkSync(old_image);
+        }
+
         await this.trainerService.delete(query.id);
         res.status(302).redirect('/trainers/index')
     }

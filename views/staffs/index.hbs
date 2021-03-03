@@ -2,7 +2,7 @@
     {{#content "body"}}
     <h2>List Staff</h2>
      
-     <a href="/staffs/create" class="btn btn-primary"> <i class="fa fa-plus"></i> New Staff</a><br>
+     <a {{if_eq user.role_id  }} href="/staffs/create" class="btn btn-primary"> <i class="fa fa-plus"></i> New Staff</a><br>
 
     <table class=" table table-bordered">
         <tr class="thead-dark">
@@ -28,8 +28,8 @@
                 <td>
                      <center>
                         <a href="/staffs/detail?id={{id}}"><i class="far fa-eye"></i></a>&nbsp;&nbsp;
-                        <a href="/staffs/delete?id={{id}}" onclick="confirm('Delete?')"><i class="far fa-trash"></i></a>&nbsp;&nbsp;
-                        <a href="/staffs/update?id={{id}}"><i class="far fa-pen"></i></a>&nbsp;&nbsp;
+                        <a  {{if_eq ../user.role_id  }} href="/staffs/delete?id={{id}}" onclick="confirm('Delete?')"><i class="far fa-trash"></i></a>&nbsp;&nbsp;
+                        <a {{if_eq ../user.role_id  }} href="/staffs/update?id={{id}}"><i class="far fa-pen"></i></a>&nbsp;&nbsp;
                      </center>
                 </td>
             </tr>

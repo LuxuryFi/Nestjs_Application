@@ -17,6 +17,7 @@ export class UpdateTraineeDto {
 
     role: number
 
+    old_image: string
 
     constructor(id:number ,firstname:string, lastname:string, email:string, phone:string, address:string, password:string, avatar:string){
         this.trainee_address = address;

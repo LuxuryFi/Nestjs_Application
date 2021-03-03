@@ -1,14 +1,22 @@
-import { Controller, Get, Post, Query, Render, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Render, Req, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CreateStaffDto } from './dto/create-staff.dto';
 import { StaffsService } from './staffs.service';
 import * as path from 'path'
 import * as fs from 'fs'
 import { UpdateStaffDto } from './dto/update-staff.dto';
+import { Role } from 'src/role/role.enum';
+import { RolesGuard } from 'src/role/role.guard';
+import { Roles } from 'src/role/roles.decorator';
+import { ExpressAdapter, FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 @Controller('staffs')
 export class StaffsController {
     constructor(private readonly staffService : StaffsService){}
 
+    @Roles(Role.Admin,Role.Staff)
+    @UseGuards(RolesGuard)
     @Render('staffs/index.hbs')
     @Get('index')
     async index(@Req() req){
@@ -16,47 +24,48 @@ export class StaffsController {
         return {user: req.user,staffs: staffs}
     }
 
+    @Roles(Role.Admin)
+    @UseGuards(RolesGuard)
     @Render('staffs/create.hbs')
     @Get('create')
     create(@Req() req){
         return {user: req.user}
     }
 
+    @Roles(Role.Admin)
+    @UseGuards(RolesGuard)
     @Post('create')
-    async createOne(@Req() req, @Res() res){
-        const files = await req.saveRequestFiles();
-        const destination = path.join(__dirname , '/../' , '/../', 'public/uploads/staffs/', files[0].filename);
-
-        
+    @UseInterceptors(FileInterceptor('avatar', {
+        storage: diskStorage({
+            destination: path.join(__dirname + '/..' + '/../', 'public/uploads/staffs/')
+            , filename: (req, file, cb) => {
+                // Generating a 32 random chars long string
+                const randomName = file.originalname
+                //Calling the callback passing the random name generated with the original extension name
+                cb(null, `${randomName}${extname(file.originalname)}`)
+            }
+        })
+    }))
+    async createOne(@Body() createStaff: CreateStaffDto, @UploadedFile() file: Express.Multer.File ,@Req() req, @Res() res){
         try {
-            const data = files[0].fields;
-            let createStaff = new CreateStaffDto(
-                data.staff_firstname.value,
-                data.staff_lastname.value,
-                data.staff_email.value,
-                data.staff_phone.value,
-                data.staff_address.value,
-                data.password.value,
-                files[0].filename
-            );
-
-            const tmp_file = files[0].filepath;
-            fs.copyFileSync(tmp_file, destination);
+            createStaff.avatar = file.filename;
             await this.staffService.create(createStaff);
             res.status(302).redirect('/staffs/index')
-
         } catch (error) {
             return {message : 'Create Failed'}
         }
-    
     }
 
+    @Roles(Role.Admin)
+    @UseGuards(RolesGuard)
     @Get('delete')
     async deleteOne(@Res() res, @Query() query){
         await this.staffService.delete(query.id);
         res.status(302).redirect('/staffs/index')
     }
 
+    @Roles(Role.Admin)
+    @UseGuards(RolesGuard)
     @Render('staffs/update.hbs')
     @Get('update')
     async update(@Req() req,@Query() query){
@@ -64,45 +73,42 @@ export class StaffsController {
         return {user: req.user,staff : staff}
     }
 
+    @Roles(Role.Admin)
+    @UseGuards(RolesGuard)
     @Post('update')
-    async updateOne(@Req() req,@Res() res, @Query() query){
-        const files = await req.saveRequestFiles();
-        const destination = path.join(__dirname, '/../','/../', 'public/uploads/staffs/', files[0].filename);
-        let data = files[0].fields;
-        const tmp_file = files[0].filepath;
-        let avatar = '';
+    @UseInterceptors(FileInterceptor('avatar', {
+        storage: diskStorage({
+            destination: path.join(__dirname + '/..' + '/../', 'public/uploads/staffs/')
+            , filename: (req, file, cb) => {
+                // Generating a 32 random chars long string
+                const randomName = file.originalname
+                //Calling the callback passing the random name generated with the original extension name
+                cb(null, `${randomName}${extname(file.originalname)}`)
+            }
+        })
+    }))
+    async updateOne(@Body() updateStaff : UpdateStaffDto, @UploadedFile() file: Express.Multer.File, @Req() req,@Res() res, @Query() query){
         try {
-            avatar = files[0].filename;
+            var avatar = file.filename;
             
-            let old_image = path.join(__dirname, '/../','/../', 'public/uploads/staffs/', data.old_image.value)
+            let old_image = path.join(__dirname, '/../','/../', 'public/uploads/staffs/', updateStaff.old_image )
 
-            if (!files[0].filename) avatar = data.old_image.value;
+            if (!avatar) avatar = updateStaff.old_image
             else {
-                if (data.old_image.value && fs.existsSync(old_image)){
+                if (updateStaff.old_image && fs.existsSync(old_image)){
                     fs.unlinkSync(old_image);
                 }
-                fs.copyFileSync(tmp_file, destination);
+                updateStaff.avatar = avatar
             }
-
-            let updateStaff = new UpdateStaffDto(
-                data.id.value,
-                data.staff_firstname.value,
-                data.staff_lastname.value,
-                data.staff_email.value,
-                data.staff_phone.value,
-                data.staff_address.value,
-                data.password.value,
-                avatar, 
-            )
-
             this.staffService.update(updateStaff);
-
             res.status(302).redirect('/staffs/index');
         } catch (error) {
             
         }
     }
 
+    @Roles(Role.Admin,Role.Staff)
+    @UseGuards(RolesGuard)
     @Render('staffs/detail.hbs')
     @Get('detail')
     async detail(@Req() req,@Res() res, @Query() query){

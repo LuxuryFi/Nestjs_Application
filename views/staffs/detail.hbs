@@ -37,13 +37,13 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <img width="300px" src="/public/uploads/staffs/{{staff.avatar}}" alt="">
+                    <img width="300px" src="/uploads/staffs/{{staff.avatar}}" alt="">
                 </td>
             </tr>
         </table>
         
         <a href="/staffs/index" class="btn btn-success">Back To Home</a>
-        <a href="/staffs/update?id={{staff.id}}" class="btn btn-secondary">Update</a>
+        <a {{if_eq user.role_id  }} href="/staffs/update?id={{staff.id}}" class="btn btn-secondary">Update</a>
 
     {{/content}}
 {{/extend}}

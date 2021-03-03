@@ -13,21 +13,23 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.useStaticAssets(join(__dirname, '..', '/public'));
-  app.setBaseViewsDir(join(__dirname, '..',  '/views'));
+  app.setBaseViewsDir(join(__dirname, '..', '/views'));
   app.setViewEngine('hbs');
 
   hbs.handlebars.registerPartial('layout', hbs.handlebars.compile(fs.readFileSync(join(__dirname, '..', 'views/layouts.hbs'), 'utf-8')));
   hbs.handlebars.registerHelper(layouts(hbs.handlebars));
 
 
+  hbs.handlebars.registerHelper('if_eq', function (role) {
+    if (role == 'admin') {
+      return ''
+    }
+    else {
+      return 'hidden'
+    }
 
-  hbs.handlebars.registerHelper('if_eq', function(role) {
-    if(role == 'admin') // Or === depending on your needs
-        return true
-    else
-        return 'hidden'
-  }); 
-  
+  });
+
 
   hbs.handlebars.registerHelper('selected', function (options, value) {
     if (options == value) {
@@ -36,7 +38,7 @@ async function bootstrap() {
       return ''
     }
   })
-  
+
   app.use(
     session({
       secret: 'nest cats',

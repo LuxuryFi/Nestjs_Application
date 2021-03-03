@@ -64,7 +64,7 @@ export class CoursesController {
     }
 
     
-    @Roles(Role.Admin)
+    @Roles(Role.Admin,Role.Staff)
     @UseGuards(RolesGuard)
     @Render('courses/detail.hbs')
     @Get('detail')

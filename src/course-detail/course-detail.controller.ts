@@ -1,6 +1,9 @@
-import { Body, Controller, Get, Post, Query, Render, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Render, Res, UseGuards } from '@nestjs/common';
 import { CategoriesService } from 'src/categories/categories.service';
 import { CoursesService } from 'src/courses/courses.service';
+import { Role } from 'src/role/role.enum';
+import { RolesGuard } from 'src/role/role.guard';
+import { Roles } from 'src/role/roles.decorator';
 import { TopicsService } from 'src/topics/topics.service';
 import { TrainersService } from 'src/trainers/trainers.service';
 import { CourseDetailService } from './course-detail.service';
@@ -18,6 +21,8 @@ export class CourseDetailController {
     ) { }
 
 
+    @Roles(Role.Admin,Role.Staff)
+    @UseGuards(RolesGuard)
     @Render('course-detail/index.hbs')
     @Get('index')
     async index() {
@@ -25,6 +30,8 @@ export class CourseDetailController {
        return {coursedetails : coursedetails}
     }
 
+    @Roles(Role.Admin,Role.Staff)
+    @UseGuards(RolesGuard)
     @Render('course-detail/create.hbs')
     @Get('create')
     async create() {
@@ -35,12 +42,16 @@ export class CourseDetailController {
         return { courses: courses, topics: topics, trainers: trainers }
     }
 
+    @Roles(Role.Admin,Role.Staff)
+    @UseGuards(RolesGuard)
     @Post('create')
     async createOne(@Res() res, @Body() createDetail: CreateDetailDto) {
         await this.detailService.create(createDetail);
         res.status(302).redirect('/course-detail/index')
     }
 
+    @Roles(Role.Admin,Role.Staff)
+    @UseGuards(RolesGuard)
     @Render('course-detail/detail.hbs')
     @Get('detail')
     async detail(@Query() query){
@@ -49,6 +60,8 @@ export class CourseDetailController {
         return {course_detail: course_detail}
     }
 
+    @Roles(Role.Admin,Role.Staff)
+    @UseGuards(RolesGuard)
     @Render('course-detail/update.hbs')
     @Get('update')
     async update(@Query() query){
@@ -60,13 +73,16 @@ export class CourseDetailController {
         return {course_detail: course_detail,courses: courses, topics: topics, trainers: trainers}
     }
 
+    @Roles(Role.Admin,Role.Staff)
+    @UseGuards(RolesGuard)
     @Post('update')
     async updateOne(@Res() res,@Body() updateDetail : UpdateDetailDto){
         await this.detailService.update(updateDetail);
         res.status(302).redirect('/course-detail/index')
     }
 
-
+    @Roles(Role.Admin,Role.Staff)
+    @UseGuards(RolesGuard)
     @Get('delete')
     async deleteOne(@Res() res, @Query() query){
         await this.detailService.delete(query.course_id,query.topic_id,query.trainer_id)

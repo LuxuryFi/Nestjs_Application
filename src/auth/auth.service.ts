@@ -18,7 +18,7 @@ export class AuthService {
         const user = await this.traineeService.findByEmail(username, pass);
         const admin = await this.adminService.findByEmail(username, pass);
         const trainer = await this.trainerService.findByEmail(username, pass);
-        const staff = await this.trainerService.findByEmail(username, pass);
+        const staff = await this.staffService.findByEmail(username, pass);
         
 
         if (user && user.password === pass) {

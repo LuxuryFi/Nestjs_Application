@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Query, Render, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Render, Req, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { TraineesService } from './trainees.service';
 import * as path from 'path'
 import { CreateTraineeDto } from './dto/create-trainee.dto';
@@ -7,51 +7,50 @@ import { UpdateTraineeDto } from './dto/update-trainee.dto';
 import { Roles } from 'src/role/roles.decorator';
 import { Role } from 'src/role/role.enum';
 import { RolesGuard } from 'src/role/role.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 
 
 @Controller('trainees')
 export class TraineesController {
-    constructor(private readonly traineeService : TraineesService){}
+    constructor(private readonly traineeService: TraineesService) { }
 
-    @Roles(Role.Staff,Role.Admin)
+    @Roles(Role.Staff, Role.Admin)
     @UseGuards(RolesGuard)
     @Render('trainees/index.hbs')
     @Get('index')
-    async index(@Req() req){
+    async index(@Req() req) {
         let trainees = await this.traineeService.findAll();
-        return {trainees : trainees}
+        return { trainees: trainees }
     }
-    
 
-    @Roles(Role.Admin)
+
+    @Roles(Role.Admin, Role.Staff)
     @UseGuards(RolesGuard)
     @Render('trainees/create.hbs')
     @Get('create')
-    create(){}
+    create() { }
 
-    @Roles(Role.Admin)
+    @Roles(Role.Admin, Role.Staff)
     @UseGuards(RolesGuard)
     @Render('trainees/index.hbs')
     @Post('create')
-    async createOne(@Req() req, @Res() res){
-        const files = await req.saveRequestFiles();
-        const destination = path.join(__dirname , '/../' , '/../', 'public/uploads/trainees/', files[0].filename);
-        console.log(files[0])
+    @UseInterceptors(FileInterceptor('avatar', {
+        storage: diskStorage({
+            destination: path.join(__dirname + '/..' + '/../', 'public/uploads/trainees/')
+            , filename: (req, file, cb) => {
+                // Generating a 32 random chars long string
+                const randomName = file.originalname
+                //Calling the callback passing the random name generated with the original extension name
+                cb(null, `${randomName}${extname(file.originalname)}`)
+            }
+        })
+    }))
+    async createOne(@Body() createTrainee: CreateTraineeDto, @UploadedFile() file: Express.Multer.File, @Req() req, @Res() res) {
         try {
-            const data = files[0].fields;
-            let createTrainee = new CreateTraineeDto(
-                data.trainee_firstname.value,
-                data.trainee_lastname.value,
-                data.trainee_email.value,
-                data.trainee_phone.value,
-                data.trainee_address.value,
-                data.password.value,
-                files[0].filename
-            )
-
-            const tmp_file = files[0].filepath;
-            fs.copyFileSync(tmp_file,destination);
+            createTrainee.avatar = file.filename
             await this.traineeService.create(createTrainee);
             res.status(302).redirect('/trainees/index')
         } catch (error) {
@@ -60,20 +59,20 @@ export class TraineesController {
 
     }
 
-    @Roles(Role.Admin,Role.Staff)
+    @Roles(Role.Admin, Role.Staff)
     @UseGuards(RolesGuard)
     @Render('trainees/detail.hbs')
     @Get('detail')
-    async detail(@Query() query){
+    async detail(@Query() query) {
         let trainee = await this.traineeService.findOne(query.id);
         console.log(trainee)
-        return {trainee : trainee}
+        return { trainee: trainee }
     }
 
-    @Roles(Role.Admin)
+    @Roles(Role.Admin, Role.Staff)
     @UseGuards(RolesGuard)
     @Get('delete')
-    async delete(@Res() res, @Query() query){
+    async delete(@Res() res, @Query() query) {
         await this.traineeService.delete(query.id);
         res.status(302).redirect('/trainees/index')
     }
@@ -83,47 +82,39 @@ export class TraineesController {
     @UseGuards(RolesGuard)
     @Render('trainees/update.hbs')
     @Get('update')
-    async update(@Query() query){
+    async update(@Query() query) {
         let trainee = await this.traineeService.findOne(query.id);
-        return {trainee : trainee}
+        return { trainee: trainee }
     }
 
-    
+    @Roles(Role.Admin)
+    @UseGuards(RolesGuard)
     @Post('update')
-    async updateOne(@Query() Query,@Res() res, @Req() req){
-        const files = await req.saveRequestFiles();        
-        const folder = path.join(__dirname, '../' , '../' , '/public/uploads/trainees/');
-        const destination =  path.join(folder,files[0].filename);
-        const data = files[0].fields;
-        const tmp_file = files[0].filepath
-
+    @UseInterceptors(FileInterceptor('avatar', {
+        storage: diskStorage({
+            destination: path.join(__dirname + '/..' + '/../', 'public/uploads/trainees/')
+            , filename: (req, file, cb) => {
+                // Generating a 32 random chars long string
+                const randomName = file.originalname
+                //Calling the callback passing the random name generated with the original extension name
+                cb(null, `${randomName}${extname(file.originalname)}`)
+            }
+        })
+    }))
+    async updateOne(@Body() updateTrainee: UpdateTraineeDto, @UploadedFile() file: Express.Multer.File, @Query() Query, @Res() res, @Req() req) {
+        const folder = path.join(__dirname, '../', '../', '/public/uploads/trainees/');
         try {
-            let avatar = files[0].filename;
-            let old_image = path.join(folder, data.old_image.value)
-
-            if (!files[0].filename) avatar = data.old_image.value
+            let avatar = file.filename;
+            let old_image = path.join(folder, file.filename)
+            if (!avatar) avatar = updateTrainee.old_image
             else {
-                if (data.old_image.value && fs.existsSync(old_image)){
+                if (updateTrainee.old_image && fs.existsSync(old_image)) {
                     fs.unlinkSync(old_image);
                 }
-                fs.copyFileSync(tmp_file, destination);
+                updateTrainee.old_image = avatar
             }
-            
-            let updateTrainee = new UpdateTraineeDto(
-                data.id.value,
-                data.trainee_firstname.value,
-                data.trainee_lastname.value,
-                data.trainee_email.value,
-                data.trainee_phone.value,
-                data.trainee_address.value,
-                data.password.value,
-                avatar   
-            );   
-                
-             await this.traineeService.update(updateTrainee);
-             res.status(302).redirect('/trainees/index')
-
-
+            await this.traineeService.update(updateTrainee);
+            res.status(302).redirect('/trainees/index')
         } catch (error) {
             
         }

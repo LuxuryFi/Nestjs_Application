@@ -9,19 +9,15 @@ import { LoginGuard } from './guards/login.guard';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
 
   @Render('login/login.hbs')
-  @Get('auth/login')
+  @Get()
   loginin(){
     
   }
 
   @UseGuards(LoginGuard)
-  @Post('auth/login')
+  @Post()
   async login(@Request() req,@Res() res) {
     res.redirect('/staffs/index')
   }
@@ -33,7 +29,8 @@ export class AppController {
   }
 
   @Get('logout')
-  logout(@Request() request){
-    return request.logout()
+  logout(@Request() request, @Res() res){
+    request.logout()
+    res.redirect('/');
   }
 }
