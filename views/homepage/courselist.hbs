@@ -1,0 +1,34 @@
+{{#extend "index"}}
+
+{{#content "header" mode="append"}}
+<link rel="stylesheet" href="/css/tableStyle.css">
+
+{{/content}}
+
+
+{{#content "body" mode="append"}}
+<br><br><br><br><br>
+<h1 class="table-title">List Course</h1>
+
+<center>
+    <table class="table-container">
+        <tr>
+            <th>Course ID</th>
+            <th>Course Name</th>
+            <th>Course Description</th>
+            <th>Category</th>
+            <th>Status</th>
+        </tr>
+        {{#each courses}}
+        <tr>
+            <td class="">{{id}}</td>
+            <td>{{course_name}}</td>
+            <td>{{course_description}}</td>
+            <td>{{category.category_name}}</td>
+            <td>{{is_active}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</center>
+{{/content}}
+{{/extend}}

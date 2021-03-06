@@ -1,0 +1,38 @@
+{{#extend "index"}}
+
+{{#content "header" mode="append"}}
+<link rel="stylesheet" href="/css/tableStyle.css">
+
+{{/content}}
+
+
+{{#content "body" mode="append"}}
+<br><br><br><br><br>
+<h1 class="table-title">List Topic</h1>
+
+<center>
+    <table class="table-container">
+
+        <tr>
+            <th>Topic ID</th>
+            <th>Topic Name</th>
+            <th>Topic Description</th>
+            <th>Topic Summary</th>
+            <th>Slot</th>
+            <th>Status</th>
+        </tr>
+        {{#each topics}}
+        <tr>
+            <td>{{id}}</td>
+            <td class="">{{topic_name}}</td>
+            <td class="break-word">{{topic_description}}</td>
+            <td class="break-word">{{topic_summary}}</td>
+            <td>{{slot}}</td>
+            <td>{{is_active}}</td>
+        </tr>
+
+        {{/each}}
+    </table>
+</center>
+{{/content}}
+{{/extend}}

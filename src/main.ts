@@ -18,6 +18,7 @@ async function bootstrap() {
 
   hbs.handlebars.registerPartial('layout', hbs.handlebars.compile(fs.readFileSync(join(__dirname, '..', 'views/layouts.hbs'), 'utf-8')));
   hbs.handlebars.registerHelper(layouts(hbs.handlebars));
+  hbs.handlebars.registerPartial('index', hbs.handlebars.compile(fs.readFileSync(join(__dirname, '..', 'views/index.hbs'), 'utf-8')));
 
 
   hbs.handlebars.registerHelper('if_eq', function (role) {

@@ -1,0 +1,60 @@
+{{#extend "index"}}
+
+{{#content "header" mode="append"}}
+<link rel="stylesheet" href="/css/tableStyle.css">
+
+{{/content}}
+
+
+{{#content "body" mode="append"}}
+<br><br><br><br><br>
+<h1 class="table-title">List Trainer</h1>
+
+<center>
+    <table class="table-container">
+        <thead>
+            <tr class="">
+                <th class="col-1">Trainer ID</th>
+                <th class="col-1">First Name</th>
+                <th class="col-1">Last Name</th>
+                <th class="col-2">Avatar</th>
+                <th class="col-2">Address</th>
+                <th class="col-2">Phone</th>
+                <th class="col-2">Email</th>
+                <th class="col-1"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each trainers}}
+            <tr class="">
+                <td class="col-1">{{{id}}}</td>
+                <td class="col-1">{{{trainer_firstname}}}</td>
+                <td class="col-1">
+                    <p>{{{trainer_lastname}}}</p>
+                </td>
+                <td class="col-2">
+                    <center>
+                        <img width="150px" style="" src="/uploads/trainers/{{{avatar}}}" alt="">
+                    </center>
+                </td>
+                <td class="col-2">
+                    <p>{{{trainer_address}}}</p>
+                </td>
+                <td class="col-2">{{{trainer_phone}}}</td>
+                <td class="col-2">{{{trainer_email}}}</td>
+                <td class="col-1">
+                    <center>
+                        <a href="/trainers/detail?id={{id}}"><i class="far fa-eye"></i></a>&nbsp;&nbsp;
+                        <a {{if_eq ../user.role_id}} href="/trainers/delete?id={{id}}" onclick="confirm('Delete?')"><i
+                                class="far fa-trash"></i></a>&nbsp;&nbsp;
+                        <a {{if_eq ../user.role_id}} href="/trainers/update?id={{id}}"><i
+                                class="far fa-pen"></i></a>&nbsp;&nbsp;
+                    </center>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</center>
+{{/content}}
+{{/extend}}

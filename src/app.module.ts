@@ -13,6 +13,7 @@ import { StaffsModule } from './staffs/staffs.module';
 import { TopicsModule } from './topics/topics.module';
 import { TraineesModule } from './trainees/trainees.module';
 import { TrainersModule } from './trainers/trainers.module';
+import { HomepageModule } from './homepage/homepage.module';
 
 
 @Module({
@@ -30,7 +31,7 @@ import { TrainersModule } from './trainers/trainers.module';
       Object.assign(await getConnectionOptions(), {
         autoLoadEntities: true,
       }),
-  })],
+  }), HomepageModule],
   controllers: [AppController],
   providers: [AppService],
 })

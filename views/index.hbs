@@ -1,23 +1,106 @@
-{{#extend "layout" foo="bar"}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    {{#block 'header'}}
 
 
-     {{#content "header" mode="prepend"}}
-        <h2>prepend header</h2>
-        <ul>
-            <li> <a href="/courses/index"></a></li>
-        </ul>
-    {{/content}}
+    {{/block}}
 
+    <link rel="stylesheet" href="/css/homeStyle.css">
+    <link rel="stylesheet" href="/fonts/themify-icons/themify-icons.css">
+</head>
 
-    {{#content "body" mode="append"}}
-        <h2>append body</h2>
-    {{/content}}
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="nav">
+                <ul class="nav-left">
+                    <li>
+                        <div class="logo-header"></div>
+                    </li>
+                    <li>
+                        <a class="opa-item none-deco black-text" href="#">Functions</a> <i
+                            class="opa-item size-item ti-dashboard"></i>
+                        <ul class="sub-nav-func">
+                            <li><a href="#">Adding</a></li>
+                            <li><a href="#">Update</a></li>
+                            <li><a href="/homepage/courselist">View Course List</a></li>
+                            <li><a href="/homepage/trainerlist">View Trainer List</a></li>
+                            <li><a href="/homepage/topiclist">Topic List</a></li>
+                            <li><a href="/homepage/mycourse">My Course</a></li>
+                        </ul>
+                    </li>
+                    <li class="opa-item"><a class="black-text none-deco" href="#contact">Contact</a> <i
+                            class="size-item ti-direction"></i></li>
+                </ul>
+                <ul class="nav-right">
+                    <li class="opa-item">
+                        <form action="" method="">
+                            <input type="text" name="" id="" class="input-search-header" placeholder="Search...">
+                            <button type="submit" class="submit-icon">
+                                <i class="ti-search size-item"></i>
+                            </button>
+                        </form>
+                    </li>
+                    <li><i class="weight-size-item mg-lr-10px cs-pt ti-bell"></i> <i
+                            class="weight-size-item cs-pt ti-layout-grid2"></i></li>
+                    <li>
+                        <img width="60px" height="60px" src="/uploads/trainees/{{user.avatar}}" alt="">
+                        <i class="ti-angle-down"></i>
+                        <ul class="sub-nav-avt-cont">
+                            <li class="sub-nav-avt">
+                                <p class="sub-avt"></p>
+                                <div class="user-info">
+                                    <p class="fw-600"> {{user1.staff_firstname}} {{user1.staff_lastname}} {{user.trainee_firstname}} {{user.trainee_lastname}}</p>
+                                    <p>A short profile description</p>
+                                </div>
+                                <a href="/logout" class="log-out-btn none-deco">Log out</a>
+                            </li>
+                            <li class="list-activity">
+                                <p>ACTIVITY</p>
+                                <a href="#" class="none-deco">Activity</a>
+                                <a href="#" class="none-deco">Chat</a>
+                                <a href="#" class="none-deco">Change Password</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
 
-     {{#content "footer" mode="prepend"}}
-        <h2>Prepend footer</h2>
-    {{/content}}
+        <!-- Content -->
+        <div class="content">
+            {{#block "body"}}
+                        
+            {{/block}}
+        </div>
 
-      {{#content "footer" mode="append"}}
-        <h2>Append footer</h2>
-    {{/content}}
-{{/extend}}
+        <div class="footer">
+            <div class="footer-one" id="contact">
+                <p><i class="ti-mobile"></i> 19008198</p>
+                <p><i class="ti-location-pin"></i> 17 Duy Tan, Dich Vong Hau, Cau Giay, Hanoi, Vietnam.</p>
+                <p><i class="ti-email"></i> contact@fis.com.vn</p>
+                <section class="social-part">
+                    <a href="#"><i class="ti-facebook"></i></a>
+                    <a href="#"><i class="ti-youtube"></i></a>
+                </section>
+            </div>
+            <div class="footer-two align-text">
+                <h3>About us</h3>
+                <p>FPT is a pioneer in shaping the Vietnamese ICT industry as well as
+                    highlighting Vietnam on the global technology map</p>
+                <section class="logo-footer">
+                </section>
+            </div>
+        </div>
+    </div>
+    <script src="/js/myScript.js"></script>
+</body>
+
+</html>
