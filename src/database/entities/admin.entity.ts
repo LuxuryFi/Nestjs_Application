@@ -12,16 +12,16 @@ export class Admin extends Base {
     @Column()
     admin_email: string
 
-    @Column()
+    @Column({default: '123456789'})
     admin_phone: string
     
-    @Column()
+    @Column({default: 'Address Address Hanoi '})
     admin_address: string
 
     @Column()
     avatar: string
 
-    @Column()
+    @Column({default: '123456789'})
     password: string
 
     @Column({default: 'admin'})

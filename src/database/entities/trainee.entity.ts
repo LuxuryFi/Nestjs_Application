@@ -12,16 +12,16 @@ export class Trainee extends Base {
     @Column()
     trainee_email: string
 
-    @Column()
+    @Column({default: '123456789'})
     trainee_phone: string
     
-    @Column()
+    @Column({default: '123456789'})
     trainee_address: string
 
     @Column()
     avatar: string
 
-    @Column()
+    @Column({default: '123456789'})
     password: string
 
     @Column()

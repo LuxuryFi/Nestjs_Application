@@ -1,0 +1,37 @@
+{{#extend "index"}}
+
+{{#content "header" mode="append"}}
+<link rel="stylesheet" href="/css/tableStyle.css">
+
+{{/content}}
+
+
+{{#content "body" mode="append"}}
+<br><br><br><br><br>
+<h1 class="table-title">List Topic</h1>
+
+<center>
+    <table class="table-container">
+
+        <tr>
+            <th>Course</th>
+            <th>Topic</th>
+            <th>Trainer</th>
+        </tr>
+        {{#each enrollments}}
+        <tr>
+            <td><a href="/courses/detail?id={{course.id}}">{{course.course_name}}</a></td>
+            <td><a href="/topics/detail?id={{topic.id}}">{{topic.topic_name}}</a></td>
+            <td>
+                <a href="/trainers/detail?id={{trainer.id}}">{{trainer.trainer_firstname}}
+                    {{trainer.trainer_lastname}}
+                </a>
+            </td>
+
+        </tr>
+
+        {{/each}}
+    </table>
+</center>
+{{/content}}
+{{/extend}}

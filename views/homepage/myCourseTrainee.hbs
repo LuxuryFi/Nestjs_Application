@@ -1,0 +1,50 @@
+{{#extend "index"}}
+
+{{#content "header" mode="append"}}
+<link rel="stylesheet" href="/css/tableStyle.css">
+
+{{/content}}
+
+
+{{#content "body" mode="append"}}
+<br><br><br><br><br>
+<h1 class="table-title">List Topic</h1>
+
+<center>
+    <table class="table-container">
+        <thead>
+            <tr class="">
+                <th class="col-1">Trainee ID</th>
+                <th class="col-1">First Name</th>
+                <th class="col-1">Last Name</th>
+                <th class="col-2">Avatar</th>
+                <th class="col-2">Address</th>
+                <th class="col-2">Phone</th>
+                <th class="col-2">Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each trainees}}
+            <tr class="">
+                <td class="col-1">{{{trainee.id}}}</td>
+                <td class="col-1">{{{trainee.trainee_firstname}}}</td>
+                <td class="col-1">
+                    <p>{{{trainee.trainee_lastname}}}</p>
+                </td>
+                <td class="col-2">
+                    <center>
+                        <img width="150px" style="" src="/public/uploads/trainees/{{{trainee.avatar}}}" alt="">
+                    </center>
+                </td>
+                <td class="col-2">
+                    <p>{{{trainee.trainee_address}}}</p>
+                </td>
+                <td class="col-2">{{{trainee.trainee_phone}}}</td>
+                <td class="col-2">{{{trainee.trainee_email}}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</center>
+{{/content}}
+{{/extend}}

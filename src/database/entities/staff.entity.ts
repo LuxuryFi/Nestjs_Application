@@ -13,16 +13,16 @@ export class Staff extends Base {
     @Column()
     staff_email: string
 
-    @Column()
+    @Column({default: '123456789'})
     staff_phone: string
     
-    @Column()
+    @Column({default: '123456789'})
     staff_address: string
 
     @Column()
     avatar: string
 
-    @Column()
+    @Column({default: '123456789'})
     password: string
 
     @Column({default:'staff'})

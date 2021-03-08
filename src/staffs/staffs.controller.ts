@@ -87,6 +87,7 @@ export class StaffsController {
             }
         })
     }))
+    
     async updateOne(@Body() updateStaff : UpdateStaffDto, @UploadedFile() file: Express.Multer.File, @Req() req,@Res() res, @Query() query){
         try {
             var avatar = file.filename;

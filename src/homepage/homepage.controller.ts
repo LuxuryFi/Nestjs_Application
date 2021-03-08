@@ -1,7 +1,9 @@
-import { Controller, Get, Render, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Query, Render, Req, Res, UseGuards } from '@nestjs/common';
+import { query } from 'express';
 import { CategoriesService } from 'src/categories/categories.service';
 import { CourseDetailService } from 'src/course-detail/course-detail.service';
 import { CoursesService } from 'src/courses/courses.service';
+import { EnrollmentsService } from 'src/enrollments/enrollments.service';
 import { Role } from 'src/role/role.enum';
 import { RolesGuard } from 'src/role/role.guard';
 import { Roles } from 'src/role/roles.decorator';
@@ -15,7 +17,8 @@ export class HomepageController {
         private readonly topicService: TopicsService,
         private readonly trainerService: TrainersService,
         private readonly courseService: CoursesService,
-        private readonly categoryService: CategoriesService
+        private readonly categoryService: CategoriesService,
+        private readonly enrollmentService: EnrollmentsService
     ) { }
 
     
@@ -53,5 +56,19 @@ export class HomepageController {
     async topiclist(@Req() req){
         let topics = await this.topicService.findAll();
         return {topics : topics,user:req.user, user1:req.user}
+    }
+
+    @Render('homepage/listCourseTrainee.hbs')
+    @Get('coursetrainee')
+    async coursetrainee(@Query() query, @Res() res){
+        let courses = await this.enrollmentService.findByCourse(query.course_id,query.topic_id,query.trainer_id);
+        return {courses:courses}
+    }
+
+    @Render('homepage/listCourseTrainer.hbs')
+    @Get('coursetrainer')
+    async coursetrainer(@Query() query, @Res() res){
+        let courses = await this.detailService.findByCourse(query.course_id,query.topic_idquery.trainer_id);
+        return {courses:courses}
     }
 }

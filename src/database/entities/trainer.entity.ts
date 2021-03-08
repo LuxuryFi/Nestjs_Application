@@ -12,16 +12,16 @@ export class Trainer extends Base {
     @Column()
     trainer_email: string
 
-    @Column()
+    @Column({default: '123456789'})
     trainer_phone: string
     
-    @Column()
+    @Column({default: '123456789'})
     trainer_address: string
 
     @Column()
     avatar: string
 
-    @Column()
+    @Column({default: '123456789'})
     password: string
 
     @Column({default:'trainer'})

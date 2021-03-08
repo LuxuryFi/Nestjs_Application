@@ -32,8 +32,9 @@
                             <li><a href="#">Update</a></li>
                             <li><a href="/homepage/courselist">View Course List</a></li>
                             <li><a href="/homepage/trainerlist">View Trainer List</a></li>
-                            <li><a href="/homepage/topiclist">Topic List</a></li>
-                            <li><a href="/homepage/mycourse">My Course</a></li>
+                            <li><a href="/homepage/topiclist?">Topic List</a></li>
+                            <li><a href="/homepage/mycourse/course_id={{user.id}}&topic_id={{user.id}}&trainer_id={{user.id}}">My Course</a></li>
+
                         </ul>
                     </li>
                     <li class="opa-item"><a class="black-text none-deco" href="#contact">Contact</a> <i
@@ -101,6 +102,9 @@
         </div>
     </div>
     <script src="/js/myScript.js"></script>
+    {{#block 'footer'}}
+
+    {{/block}}
 </body>
 
 </html>

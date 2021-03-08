@@ -75,5 +75,19 @@ export class EnrollmentsService {
         .andWhere("enrollment.trainee_id = :id4",{id4: trainee_id})
         .execute()
     }
+
+
+    async findByCourse(course_id :number, topic_id:number, trainer_id : number) :Promise<Enrollment[]> {
+        return await getConnection().createQueryBuilder()
+            .select('detail','course.id, trainer.id,topic.id')
+            .from(Enrollment, 'detail')
+            .innerJoinAndSelect("detail.course", "course", )
+            .innerJoinAndSelect("detail.topic", "topic",)
+            .innerJoinAndSelect("detail.trainer", "trainer")
+            .where("course.id = :id1", {id1: course_id})
+            .andWhere("topic.id = :id2", {id2: topic_id})
+            .andWhere("trainer.id = :id3", {id3: trainer_id})
+            .getMany(); 
+    }
     
 }

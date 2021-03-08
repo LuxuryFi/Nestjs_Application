@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Course } from 'src/database/entities/course.entity';
 import { CourseDetail } from 'src/database/entities/coursedetail.entity';
 import { getConnection, getRepository, Repository } from 'typeorm';
 import { CreateDetailDto } from './dto/create-coursedetail';
@@ -64,5 +65,16 @@ export class CourseDetailService {
         .andWhere("topic.id = :id2", {id2: topic_id})
         .andWhere("trainer.id = :id3", {id3: trainer_id})
         .execute()
+    }
+
+    async findByCourse(course_id :number, topic_id:number) :Promise<CourseDetail[]> {
+        return await getConnection().createQueryBuilder()
+            .select('detail','course.id, trainer.id,topic.id')
+            .from(CourseDetail, 'detail')
+            .innerJoinAndSelect("detail.course", "course", )
+            .innerJoinAndSelect("detail.topic", "topic",)
+            .where("course.id = :id1", {id1: course_id})
+            .andWhere("topic.id = :id2", {id2: topic_id})
+            .getMany(); 
     }
 }
