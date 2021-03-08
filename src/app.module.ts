@@ -14,6 +14,7 @@ import { TopicsModule } from './topics/topics.module';
 import { TraineesModule } from './trainees/trainees.module';
 import { TrainersModule } from './trainers/trainers.module';
 import { HomepageModule } from './homepage/homepage.module';
+import { CrawlModule } from './crawl/crawl.module';
 
 
 @Module({
@@ -31,7 +32,7 @@ import { HomepageModule } from './homepage/homepage.module';
       Object.assign(await getConnectionOptions(), {
         autoLoadEntities: true,
       }),
-  }), HomepageModule],
+  }), HomepageModule, CrawlModule],
   controllers: [AppController],
   providers: [AppService],
 })

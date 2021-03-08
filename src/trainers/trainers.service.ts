@@ -14,6 +14,7 @@ export class TrainersService {
     constructor(@InjectRepository(Trainer) private trainerRepository: Repository<Trainer>){}
 
     async create(createTrainer : CreateTrainerDto) : Promise<void> {
+        createTrainer.trainer_email += '@ fe.edu.vn';
         let trainer = await this.trainerRepository.create(createTrainer);
         await this.trainerRepository.save(trainer);
     }
@@ -33,7 +34,6 @@ export class TrainersService {
                 trainer_address : updateTrainer.trainer_address,
                 trainer_firstname: updateTrainer.trainer_firstname,
                 trainer_lastname: updateTrainer.trainer_lastname,
-                trainer_email: updateTrainer.trainer_email,
                 trainer_phone: updateTrainer.trainer_phone,
                 avatar: updateTrainer.avatar
             }

@@ -8,10 +8,19 @@ export class Topic extends Base {
 
     @Column()
     topic_description: string
+    
+    @Column()
+    topic_code: string
 
     @Column()
     topic_summary: string
 
     @Column()
     slot: number
+
+    @Column()
+    credit: number
+
+    @Column()
+    semester: string
 }

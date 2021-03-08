@@ -29,6 +29,7 @@ export class TraineesService {
     }
 
     async create(createTrainee : CreateTraineeDto){
+        createTrainee.trainee_email += '@fpt.edu.vn';
         let trainee = this.traineeRepository.create(createTrainee);
         await this.traineeRepository.save(trainee);
     }
@@ -42,7 +43,6 @@ export class TraineesService {
             {id : updateTrainee.id},
             {
                 trainee_address: updateTrainee.trainee_address,
-                trainee_email: updateTrainee.trainee_email,
                 trainee_firstname: updateTrainee.trainee_firstname,
                 trainee_lastname: updateTrainee.trainee_lastname,
                 avatar: updateTrainee.avatar,

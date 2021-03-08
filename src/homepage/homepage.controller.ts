@@ -58,17 +58,19 @@ export class HomepageController {
         return {topics : topics,user:req.user, user1:req.user}
     }
 
-    @Render('homepage/listCourseTrainee.hbs')
+    @Render('homepage/myCourseTrainee.hbs')
     @Get('coursetrainee')
     async coursetrainee(@Query() query, @Res() res){
-        let courses = await this.enrollmentService.findByCourse(query.course_id,query.topic_id,query.trainer_id);
+        let courses = await this.enrollmentService.findAllTrainee(query.course_id,query.topic_id,query.trainer_id);
+        console.log(courses)
         return {courses:courses}
     }
 
-    @Render('homepage/listCourseTrainer.hbs')
+    @Render('homepage/myCourseTrainer.hbs')
     @Get('coursetrainer')
     async coursetrainer(@Query() query, @Res() res){
         let courses = await this.detailService.findByCourse(query.course_id,query.topic_idquery.trainer_id);
+
         return {courses:courses}
     }
 }
