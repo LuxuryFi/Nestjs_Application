@@ -1,15 +1,15 @@
 {
     "type":"mysql",
-    "host":"45.124.94.41",
+    "host":"localhost",
     "port":3306,
     "username":"root",
-    "password":"root",
+    "password":"",
     "database":"asm2",
     "entities": [
-        "dist/**/*.entity.{ts,js}"
+        "dist/**/*.entity.{js,ts}"
     ],
     "migrations": [
-        "src/migrations/**/*.ts"
+        "src/migrations/**/*.js"
     ],
     "cli": {
         "migrationsDir": "src/migrations"
