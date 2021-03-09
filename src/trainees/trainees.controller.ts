@@ -23,6 +23,7 @@ export class TraineesController {
     @Get('index')
     async index(@Req() req) {
         let trainees = await this.traineeService.findAll();
+        console.log(trainees)
         return { trainees: trainees }
     }
 

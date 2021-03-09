@@ -5,7 +5,7 @@ export class Base {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({default:1})
     is_active: number;
 
     @CreateDateColumn()

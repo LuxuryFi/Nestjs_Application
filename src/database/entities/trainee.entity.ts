@@ -3,10 +3,10 @@ import { Base } from './base.entity';
 
 @Entity()
 export class Trainee extends Base {
-    @Column()
+    @Column({charset: "utf8mb4", collation: "utf8mb4_unicode_ci"})
     trainee_firstname: string
 
-    @Column()
+    @Column({charset: "utf8mb4", collation: "utf8mb4_unicode_ci"})
     trainee_lastname: string
 
     @Column()
@@ -23,9 +23,6 @@ export class Trainee extends Base {
 
     @Column({default: '123456789'})
     password: string
-
-    @Column()
-    semester: number
 
     @Column({default:'trainee'})
     role_id: string

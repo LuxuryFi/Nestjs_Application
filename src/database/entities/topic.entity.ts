@@ -6,19 +6,19 @@ export class Topic extends Base {
     @Column()
     topic_name: string
 
-    @Column()
+    @Column({default: 'TOPUP and BTEC'})
     topic_description: string
     
     @Column()
     topic_code: string
 
-    @Column()
+    @Column({default: 'TOPUP and BTEC'})
     topic_summary: string
 
-    @Column()
+    @Column({default:40})
     slot: number
 
-    @Column()
+    @Column({default:15})
     credit: number
 
     @Column()
