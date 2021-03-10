@@ -3,7 +3,7 @@
 {{#content "body"}}
 
 <h1>List Course</h1>
-<a {{if_eq user.role_id  }} href="/courses/create" class="btn btn-primary"> <i class="fa fa-plus"></i> New Course</a>
+<a href="/courses/create" class="btn btn-primary"> <i class="fa fa-plus"></i> New Course</a>
 <br>
 <table class="table table-bordered">
     <tr>
@@ -24,8 +24,8 @@
         <td>
             <center>
                 <a href="/courses/detail?id={{id}}"><i class="far fa-eye"></i></a>&nbsp;&nbsp;
-                <a {{if_eq ../user.role_id  }} href="/courses/delete?id={{id}}" onclick="confirm('Delete?')" ><i class="far fa-trash"></i></a>&nbsp;&nbsp;
-                <a {{if_eq ../user.role_id  }} href="/courses/update?id={{id}}"><i class="far fa-pen"></i></a>&nbsp;&nbsp;
+                <a  href="/courses/delete?id={{id}}" onclick="confirm('Delete?')" ><i class="far fa-trash"></i></a>&nbsp;&nbsp;
+                <a  href="/courses/update?id={{id}}"><i class="far fa-pen"></i></a>&nbsp;&nbsp;
             </center>
         </td>
     </tr>

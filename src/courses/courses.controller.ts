@@ -23,7 +23,7 @@ export class CoursesController {
         return {user: req.user,courses: courses};
     }
 
-    @Roles(Role.Admin)
+    @Roles(Role.Admin,Role.Staff)
     @UseGuards(RolesGuard)
     @Render('courses/create.hbs')
     @Get('create')
@@ -33,7 +33,7 @@ export class CoursesController {
         return {user: req.user,categories:categories}
     }
 
-    @Roles(Role.Admin)
+    @Roles(Role.Admin,Role.Staff)
     @UseGuards(RolesGuard)
     @Post('create')
     async createOne(@Body() createCourse : CreateCourseDto, @Res() res, @Req() req){
@@ -41,7 +41,7 @@ export class CoursesController {
         res.status(302).redirect('/courses/index')
     }
 
-    @Roles(Role.Admin)
+    @Roles(Role.Admin,Role.Staff)
     @UseGuards(RolesGuard)
     @Render('courses/update.hbs')
     @Get('update')
@@ -54,7 +54,7 @@ export class CoursesController {
         return {user: req.user,course : course,active: '', disable: 'selected', categories:categories};
     }
 
-    @Roles(Role.Admin)
+    @Roles(Role.Admin,Role.Staff)
     @UseGuards(RolesGuard)
     @Post('update')
     updateOne(@Body() updateCourse : UpdateCourseDto, @Res() res){
@@ -74,7 +74,7 @@ export class CoursesController {
         return {course : course,active: '', disable: 'selected'};
     }
 
-    @Roles(Role.Admin)
+    @Roles(Role.Admin,Role.Staff)
     @UseGuards(RolesGuard)
     @Get('delete')
     delete(@Query() query, @Res() res){

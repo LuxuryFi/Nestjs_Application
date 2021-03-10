@@ -78,7 +78,7 @@ export class TraineesController {
     }
 
 
-    @Roles(Role.Admin)
+    @Roles(Role.Admin,Role.Staff)
     @UseGuards(RolesGuard)
     @Render('trainees/update.hbs')
     @Get('update')
@@ -87,7 +87,7 @@ export class TraineesController {
         return { trainee: trainee, user:req.user }
     }
 
-    @Roles(Role.Admin)
+    @Roles(Role.Admin,Role.Staff)
     @UseGuards(RolesGuard)
     @Post('update')
     @UseInterceptors(FileInterceptor('avatar', {
