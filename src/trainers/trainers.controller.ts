@@ -91,9 +91,7 @@ export class TrainersController {
         })
     }))
     async updateOne(@Body() updateTrainer: UpdateTrainerDto, @Res() res, @Req() req, @UploadedFile() file: Express.Multer.File) {
-        console.log(file)
         const destination = path.join(__dirname + '/..' + '/../', 'public/uploads/trainers/', file.originalname);
-
         try {
             var avatar = file.filename;
 
@@ -105,8 +103,6 @@ export class TrainersController {
                 }
                 updateTrainer.avatar = avatar
             }
-            
-
             await this.trainerService.update(updateTrainer);
             res.status(302).redirect('/trainers/index')
 

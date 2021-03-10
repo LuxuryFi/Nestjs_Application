@@ -17,7 +17,6 @@ export class EnrollmentsController {
     @Get('index')
     async index(){
         let enrollments =await this.detailService.findAll();
-        console.log(enrollments)
         return {enrollments: enrollments}
     }
 
@@ -38,12 +37,13 @@ export class EnrollmentsController {
     @Render('enrollments/list.hbs')
     @Get('detail')
     async detail(@Res()  res, @Query() query){
-        let trainees = await this.enrollmentService.findAllTrainee(query.course_id,query.topic_id,query.trainer_id);
+        let trainees = await this.enrollmentService.findAllTrainee(query.trainee_id);
         let courses = {
             course_id : query.course_id,
             topic_id: query.topic_id,
             trainer_id: query.trainer_id
         }
+        console.log(trainees)
         return {trainees : trainees, courses: courses}
     }
 
@@ -58,6 +58,7 @@ export class EnrollmentsController {
     async add(@Query() query){
         let courses = await this.detailService.findMany(query.course_id,query.topic_id,query.trainer_id)
         let trainees = await this.traineeService.findAll();
+        console.log(trainees)
         return  {details : courses, trainees: trainees}
     }
 

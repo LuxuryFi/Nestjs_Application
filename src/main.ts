@@ -28,8 +28,28 @@ async function bootstrap() {
     else {
       return 'hidden'
     }
-
   });
+
+  hbs.handlebars.registerHelper('if_eq3', function (role) {
+    if (role == 'trainer') return 'hidden'
+    else return ''
+  });
+  
+  hbs.handlebars.registerHelper('if_eq4', function (role) {
+    if (role == 'trainee') return 'hidden'
+    else return ''
+  });
+
+
+  hbs.handlebars.registerHelper('if_eq2', function (role) {
+    if (role == 'admin') {
+      return 'hidden'
+    }
+    else {
+      return ''
+    }
+  });
+
 
 
   hbs.handlebars.registerHelper('selected', function (options, value) {

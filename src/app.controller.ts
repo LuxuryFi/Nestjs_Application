@@ -13,6 +13,7 @@ export class AppController {
   @Render('login/login.hbs')
   @Get()
   async loginin(@Request() req,@Res() res){
+    
     if (req.user && (req.user.role_id == 'trainee' || req.user.role_id == 'trainer')){
       await res.status(401).redirect('/homepage/index')
     }
@@ -27,6 +28,7 @@ export class AppController {
   @UseGuards(LoginGuard)
   @Post()
   async login(@Request() req,@Res() res, @Next() next) {
+    console.log(req.user)
     if (req.user.role_id == 'trainee' || req.user.role_id == 'trainer'){
       res.redirect('/homepage/index')
     }

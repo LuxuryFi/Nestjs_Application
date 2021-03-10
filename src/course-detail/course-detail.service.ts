@@ -80,14 +80,14 @@ export class CourseDetailService {
         .execute()
     }
 
-    async findByCourse(course_id :number, topic_id:number) :Promise<CourseDetail[]> {
+    async findByCourse(trainer_id :number) :Promise<CourseDetail[]> {
         return await getConnection().createQueryBuilder()
             .select('detail','course.id, trainer.id,topic.id')
             .from(CourseDetail, 'detail')
             .innerJoinAndSelect("detail.course", "course", )
             .innerJoinAndSelect("detail.topic", "topic",)
-            .where("course.id = :id1", {id1: course_id})
-            .andWhere("topic.id = :id2", {id2: topic_id})
+            .innerJoinAndSelect("detail.trainer", "trainer",)
+            .where("trainer.id = :id1", {id1: trainer_id})
             .getMany(); 
     }
 }

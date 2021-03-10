@@ -34,7 +34,7 @@ export class EnrollmentsService {
         .getMany();
     }
 
-    async findAllTrainee(course_id :number, topic_id:number, trainer_id : number) : Promise<Enrollment[]>{
+    async findAllTrainee(trainee_id : number) : Promise<Enrollment[]>{
         return await getConnection().createQueryBuilder().
         select('enrollment', 'course_detail.trainer')
         .from(Enrollment,'enrollment')
@@ -43,9 +43,7 @@ export class EnrollmentsService {
         .innerJoinAndMapOne('enrollment.trainer',Trainer, 'trainer', 'course_detail.trainer_id = trainer.id')
         .innerJoinAndMapOne('enrollment.topic',Topic, 'topic', 'course_detail.topic_id = topic.id')
         .innerJoinAndMapOne('enrollment.course',Course, 'course', 'course_detail.course_id = course.id')
-        .where("course.id = :id1", {id1: course_id})
-        .andWhere("topic.id = :id2", {id2: topic_id})
-        .andWhere("trainer.id = :id3", {id3: trainer_id})
+        .where("trainee.id = :id3", {id3: trainee_id})
         .getMany();
     }
     

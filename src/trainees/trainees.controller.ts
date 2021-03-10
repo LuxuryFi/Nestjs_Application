@@ -23,8 +23,7 @@ export class TraineesController {
     @Get('index')
     async index(@Req() req) {
         let trainees = await this.traineeService.findAll();
-        console.log(trainees)
-        return { trainees: trainees }
+        return { trainees: trainees , user:req.user }
     }
 
 
@@ -64,10 +63,10 @@ export class TraineesController {
     @UseGuards(RolesGuard)
     @Render('trainees/detail.hbs')
     @Get('detail')
-    async detail(@Query() query) {
+    async detail(@Query() query, @Req() req) {
         let trainee = await this.traineeService.findOne(query.id);
         console.log(trainee)
-        return { trainee: trainee }
+        return { trainee: trainee  , user:req.user }
     }
 
     @Roles(Role.Admin, Role.Staff)
@@ -83,9 +82,9 @@ export class TraineesController {
     @UseGuards(RolesGuard)
     @Render('trainees/update.hbs')
     @Get('update')
-    async update(@Query() query) {
+    async update(@Query() query, @Req() req) {
         let trainee = await this.traineeService.findOne(query.id);
-        return { trainee: trainee }
+        return { trainee: trainee, user:req.user }
     }
 
     @Roles(Role.Admin)
@@ -103,16 +102,17 @@ export class TraineesController {
         })
     }))
     async updateOne(@Body() updateTrainee: UpdateTraineeDto, @UploadedFile() file: Express.Multer.File, @Query() Query, @Res() res, @Req() req) {
-        const folder = path.join(__dirname, '../', '../', '/public/uploads/trainees/');
+        const destination = path.join(__dirname + '/..' + '/../', 'public/uploads/trainers/', file.originalname);
         try {
-            let avatar = file.filename;
-            let old_image = path.join(folder, file.filename)
-            if (!avatar) avatar = updateTrainee.old_image
+            var avatar = file.filename;
+
+            let old_image = path.join(__dirname + '/..' + '/../', 'public/uploads/trainers/', updateTrainee.old_image);
+            if (!avatar) avatar = updateTrainee.old_image;
             else {
                 if (updateTrainee.old_image && fs.existsSync(old_image)) {
                     fs.unlinkSync(old_image);
                 }
-                updateTrainee.old_image = avatar
+                updateTrainee.avatar = avatar
             }
             await this.traineeService.update(updateTrainee);
             res.status(302).redirect('/trainees/index')

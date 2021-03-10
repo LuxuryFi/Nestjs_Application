@@ -60,17 +60,19 @@ export class HomepageController {
 
     @Render('homepage/myCourseTrainee.hbs')
     @Get('coursetrainee')
-    async coursetrainee(@Query() query, @Res() res){
-        let courses = await this.enrollmentService.findAllTrainee(query.course_id,query.topic_id,query.trainer_id);
+    async coursetrainee(@Query() query, @Res() res,@Req() req){
+        let courses = await this.enrollmentService.findAllTrainee(query.trainee_id);
         console.log(courses)
-        return {courses:courses}
+        return {courses:courses,user:req.user}
     }
 
     @Render('homepage/myCourseTrainer.hbs')
     @Get('coursetrainer')
-    async coursetrainer(@Query() query, @Res() res){
-        let courses = await this.detailService.findByCourse(query.course_id,query.topic_idquery.trainer_id);
-
-        return {courses:courses}
+    async coursetrainer(@Query() query, @Res() res,@Req() req){
+        let courses = await this.detailService.findByCourse(query.trainer_id);
+        console.log(courses)
+        return {courses:courses,user:req.user}
     }
+
+    
 }
