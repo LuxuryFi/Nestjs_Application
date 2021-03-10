@@ -27,8 +27,8 @@ export class HomepageController {
     @Render('homepage.hbs')
     @Get('index')
     async index(@Req() req, @Res() res){
-        console.log(req.user)
-        return {user:req.user, user1:req.user}
+        let course_detail = await this.detailService.findAll();
+        return {course_detail: course_detail,user:req.user, user1:req.user}
     }
 
     @Roles(Role.Trainee,Role.Trainer)
