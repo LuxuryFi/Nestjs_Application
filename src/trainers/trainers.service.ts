@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Trainer } from 'src/database/entities/trainer.entity';
 import { CreateTopicDto } from 'src/topics/dto/create-topic.dto';
-import { Repository, UpdateResult } from 'typeorm';
+import { getConnection, Repository, UpdateResult } from 'typeorm';
 import { CreateTrainerDto } from './dto/create-trainer.dto';
 import { UpdateTrainerDto } from './dto/update-trainer.dto';
 
@@ -51,6 +51,17 @@ export class TrainersService {
                 {trainer_email:username}
             ]
         })
+    }
+
+    async changePassword(username: string, password: string) {
+        return await getConnection()
+        .createQueryBuilder()
+        .update(Trainer)
+        .set({ 
+            password: password
+        })
+        .where("trainer_email = :username", { username: username })
+        .execute();
     }
 
 }

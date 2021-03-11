@@ -1,5 +1,5 @@
-import { Controller, Get, Query, Render, Req, Res, UseGuards } from '@nestjs/common';
-import { query } from 'express';
+import { Controller, Get, Post, Query, Render, Req, Res, UseGuards } from '@nestjs/common';
+import { query, request } from 'express';
 import { CategoriesService } from 'src/categories/categories.service';
 import { CourseDetailService } from 'src/course-detail/course-detail.service';
 import { CoursesService } from 'src/courses/courses.service';
@@ -72,6 +72,19 @@ export class HomepageController {
         let courses = await this.detailService.findByCourse(query.trainer_id);
         console.log(courses)
         return {courses:courses,user:req.user}
+    }
+
+    @Render('homepage/profile.hbs')
+    @Get('profile')
+    async profile(@Req() request){
+        return {user:request.user}
+    }
+
+
+    @Post('profile')
+    async profileUpdate(@Req() req, @Res() res){
+        await this.trainerService.changePassword(req.user.trainer_email,req.body.password)
+        res.redirect('/homepage/profile')
     }
 
     
