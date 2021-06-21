@@ -26,7 +26,6 @@ export class TraineesController {
         return { trainees: trainees , user:req.user }
     }
 
-
     @Roles(Role.Admin, Role.Staff)
     @UseGuards(RolesGuard)
     @Render('trainees/create.hbs')
@@ -117,7 +116,7 @@ export class TraineesController {
             await this.traineeService.update(updateTrainee);
             res.status(302).redirect('/trainees/index')
         } catch (error) {
-            
+
         }
     }
 

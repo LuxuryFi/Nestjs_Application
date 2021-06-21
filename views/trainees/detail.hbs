@@ -1,5 +1,7 @@
 {{#extend "layout"}}
-    
+
+
+
     {{#content "body" mode="append"}}
     <h2>Detail trainee {{trainee.id}} - {{trainee.trainee_firstname}}</h2>
         <table class="table table-bordered">
@@ -41,7 +43,7 @@
                 </td>
             </tr>
         </table>
-        
+
         <a href="/trainees/index" class="btn btn-success">Back To Home</a>
         <a href="/trainees/update?id={{trainee.id}}" class="btn btn-secondary">Update</a>
 

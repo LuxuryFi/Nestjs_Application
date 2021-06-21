@@ -17,7 +17,7 @@ export class EnrollmentsController {
     @Get('index')
     async index(){
         let enrollments =await this.detailService.findAll();
-         
+
         return {enrollments: enrollments}
     }
 
@@ -53,7 +53,7 @@ export class EnrollmentsController {
         await this.enrollmentService.delete(query.course_id,query.topic_id,query.trainer_id,query.trainee_id)
         res.status(302).redirect('/enrollments/detail?course_id=' + query.course_id + '&topic_id=' + query.topic_id + '&trainer_id=' +query.trainer_id)
     }
-    
+
     @Render('enrollments/create.hbs')
     @Get('add')
     async add(@Query() query){
@@ -63,4 +63,4 @@ export class EnrollmentsController {
         return  {details : courses, trainees: trainees}
     }
 
-}   
+}

@@ -32,8 +32,6 @@ export class CoursesService {
             .getMany();
     }
 
-
-
     async updateOne(updateCourse: UpdateCourseDto) {
         this.courseRepository.update({ id: updateCourse.id }, {
             course_name: updateCourse.course_name,

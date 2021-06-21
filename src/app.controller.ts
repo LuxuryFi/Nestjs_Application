@@ -10,10 +10,10 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
 
-  @Render('login/login.hbs')
+  @Render('layouts.hbs')
   @Get()
   async loginin(@Request() req,@Res() res){
-    
+
     if (req.user && (req.user.role_id == 'trainee' || req.user.role_id == 'trainer')){
       await res.status(401).redirect('/homepage/index')
     }
@@ -48,4 +48,8 @@ export class AppController {
     request.logout()
     res.redirect('/');
   }
+
+
+
+
 }

@@ -20,7 +20,7 @@
 <body>
     <div class="site-hd header bg-dark" role="banner">
         {{#block "header"}}
-        
+
         {{/block}}
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
             data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
@@ -34,7 +34,6 @@
         <div class="col-xl-1 col-md-2 col-sm-12 bg-dark sidebar">
             <div class="list-group list-group-flush bg-dark">
                 {{#block "menu"}}
-
                 <a href="/trainees/index" class="list-group-item list-group-item-action bg-dark text-white ">
                     <span><i class="fa fa-user"></i> </span>
                     Trainees
@@ -53,15 +52,13 @@
                     Staffs</a>
                 <a   {{if_eq2 user.role_id}} href="/courses/index" class="list-group-item list-group-item-action bg-dark text-white">
                     <span><i class="fa fa-tag"></i> </span>
-                    Courses</a>    
+                    Courses</a>
                 <a    {{if_eq2 user.role_id}} href="/categories/index" class="list-group-item list-group-item-action bg-dark text-white">
                     <span><i class="fa fa-tag"></i> </span>
                     Categories</a>
                 <a  {{if_eq2 user.role_id}}  href="/topics/index" class="list-group-item list-group-item-action bg-dark text-white">
                     <span><i class="fa fa-hashtag"></i> </span>
                     Topics</a>
-             
-
                 {{/block}}
             </div>
 
@@ -69,7 +66,7 @@
         <div class="col-xl-11 col-md-10 col-sm-12">
             <div class="content">
                 {{#block "body"}}
-                        
+
                 {{/block}}
             </div>
         </div>

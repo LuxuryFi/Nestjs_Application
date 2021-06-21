@@ -2,8 +2,8 @@
     "type":"mysql",
     "host":"45.124.94.41",
     "port":3306,
-    "username":"root",
-    "password":"root",
+    "username":"dbuser",
+    "password":"dbuser",
     "database":"asm2",
     "entities": [
         "dist/**/*.entity.{js,ts}"

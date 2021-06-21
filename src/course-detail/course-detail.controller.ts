@@ -56,7 +56,7 @@ export class CourseDetailController {
     @Get('detail')
     async detail(@Query() query){
         let course_detail = await this.detailService.findOne(query.course_id,query.topic_id,query.trainer_id);
-        
+
         return {course_detail: course_detail}
     }
 
@@ -69,7 +69,7 @@ export class CourseDetailController {
         let courses = await this.courseService.findAll();
         let topics = await this.topicService.findAll();
         let trainers = await this.trainerService.findAll();
-       
+
         return {course_detail: course_detail,courses: courses, topics: topics, trainers: trainers}
     }
 
